@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>{% block title %}Backend::{% endblock %}</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ absolute_url(asset('assets/img/favicon-16x16.png')) }}">
+        <link rel="icon" href="{{ asset('assets/img/favicon.ico') }}">
+        <link rel="manifest" href="{{ asset('assets/img/site.webmanifest') }}">
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ absolute_url(asset('backoffice/assets/css/bootstrap.min.css')) }}">
+            <link rel="stylesheet" href="{{ absolute_url(asset('backoffice/assets/plugins/fontawesome/css/fontawesome.min.css')) }}">
+            <link rel="stylesheet" href="{{ absolute_url(asset('backoffice/assets/plugins/fontawesome/css/all.min.css')) }}">
+            <link rel="stylesheet" href="{{ absolute_url(asset('backoffice/assets/css/feathericon.min.css')) }}">
+            <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
+            <link rel="stylesheet" href="{{ absolute_url(asset('backoffice/assets/plugins/morris/morris.css')) }}">
+            <link rel="stylesheet" href="{{ absolute_url(asset('backoffice/assets/css/style.css')) }}">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="{{ path('app_backend_dashboard') }}" class="logo"> <img src="{{ asset('assets/img/logo_black.png') }}" width="50" height="70" alt="logo"> <span class="logoclass"></span> </a>
+                <a href="{{ path('app_backend_dashboard') }}" class="logo logo-small"> <img src="{{ asset('assets/img/logo_black.png') }}" alt="Logo" width="30" height="30"> </a>
+            </div>
+            <a href="javascript:void(0);" id="toggle_btn"> <i class="fe fe-text-align-left"></i> </a>
+            <a class="mobile_btn" id="mobile_btn"> <i class="fas fa-bars"></i> </a>
+            <ul class="nav user-menu">
+                <li class="nav-item dropdown noti-dropdown">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <i class="fe fe-bell"></i> <span class="badge badge-pill">3</span> </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header"> <span class="notification-title">Notifications</span>  </div>
+                        <div class="noti-content">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media"> <span class="avatar avatar-sm">
+											<img class="avatar-img rounded-circle" alt="User Image" src="{{ asset('backoffice/assets/img/avatar.png') }}">
+											</span>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">Carlson Tech</span> has approved <span class="noti-title">your estimate</span></p>
+                                                <p class="noti-time"><span class="notification-time">4 mins ago</span> </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media"> <span class="avatar avatar-sm">
+											<img class="avatar-img rounded-circle" alt="User Image" src="assets/img/profiles/avatar-11.jpg">
+											</span>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">International Software
+													Inc</span> has sent you a invoice in the amount of <span class="noti-title">$218</span></p>
+                                                <p class="noti-time"><span class="notification-time">6 mins ago</span> </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media"> <span class="avatar avatar-sm">
+											<img class="avatar-img rounded-circle" alt="User Image" src="assets/img/profiles/avatar-17.jpg">
+											</span>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">John Hendry</span> sent a cancellation request <span class="noti-title">Apple iPhone
+													XR</span></p>
+                                                <p class="noti-time"><span class="notification-time">8 mins ago</span> </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="#">
+                                        <div class="media"> <span class="avatar avatar-sm">
+											<img class="avatar-img rounded-circle" alt="User Image" src="assets/img/profiles/avatar-13.jpg">
+											</span>
+                                            <div class="media-body">
+                                                <p class="noti-details"><span class="noti-title">Mercury Software
+												Inc</span> added a new product <span class="noti-title">Apple
+												MacBook Pro</span></p>
+                                                <p class="noti-time"><span class="notification-time">12 mins ago</span> </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer"> <a href="#">View all Notifications</a> </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <span class="user-img"><img class="rounded-circle" src="{{ asset('backoffice/assets/img/avatar.png') }}" width="31" alt="Soeng Souy"></span> </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm"> <img src="{{ asset('backoffice/assets/img/avatar.png') }}" alt="User Image" class="avatar-img rounded-circle"> </div>
+                            <div class="user-text">
+                                <h6>Soeng Souy</h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="#">Mes actions</a>
+                        <a class="dropdown-item" href="#">Mot de passe</a>
+                        <a class="dropdown-item" href="#">Deconnexion</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="top-nav-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Recherche...">
+                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="active"> <a href="index.html"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a> </li>
+                        <li class="list-divider"></li>
+                        <li class="menu-title mt-3"> <span>PRODUITS</span> </li>
+                        <li> <a href="#"><i class="fas fa-box-open"></i> <span>Famille</span></a> </li>
+                        <li> <a href="#"><i class="fas fa-box"></i> <span>Categorie</span></a> </li>
+                        <li> <a href="#"><i class="fas fa-venus-mars"></i> <span>Genre</span></a> </li>
+                        <li class="submenu"> <a href="#"><i class="fas fa-suitcase"></i> <span> Article </span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a href="#"> Liste </a></li>
+                                <li><a href="#"> Ajouter </a></li>
+                            </ul>
+                        </li>
+                        <li class="list-divider"></li>
+                        <li class="menu-title mt-3"> <span>VENTES</span> </li>
+                        <li> <a href="#"><i class="fas fa-user-friends"></i> <span>Clients</span></a> </li>
+                        <li class="submenu"> <a href="#"><i class="fas fa-file-invoice"></i> <span> Factures </span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a href="#">Liste </a></li>
+                            </ul>
+                        </li>
+                        <li class="list-divider"></li>
+                        <li class="menu-title mt-3"> <span>DIVERS</span> </li>
+                        <li> <a href="#"><i class="far fa-images"></i> <span>Slides</span></a> </li>
+                        <li class="submenu"> <a href="#"><i class="fas fa-file"></i> <span> Blog </span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a href="#">liste </a></li>
+                                <li><a href="#">Ajouter </a></li>
+                            </ul>
+                        </li>
+                        <li> <a href="#"><i class="far fa-address-card"></i> <span>Contact</span></a> </li>
+                        <li> <a href="#"><i class="fas fa-envelope"></i> <span>Newsletter</span></a> </li>
+                        <li> <a href="#"><i class="fas fa-trash"></i> <span>Cache</span></a> </li>
+                        <li> <a href="#"><i class="fas fa-cog"></i> <span>Paramètres</span></a> </li>
+                        <li class="list-divider"></li>
+                        <li class="menu-title mt-3"> <span>ADMINISTRATEUR</span> </li>
+                        <li> <a href="#"><i class="fas fa-user-cog"></i> <span>Utilisateurs</span></a> </li>
+                        <li> <a href="#"><i class="fas fa-cog"></i> <span>Monitoring</span></a> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+
+
+        {% block javascripts %}
+            <script src="{{ absolute_url(asset('backoffice/assets/js/jquery-3.5.1.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('backoffice/assets/js/popper.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('backoffice/assets/js/bootstrap.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('backoffice/assets/plugins/slimscroll/jquery.slimscroll.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('backoffice/assets/plugins/raphael/raphael.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('backoffice/assets/plugins/morris/morris.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('backoffice/assets/js/chart.morris.js')) }}"></script>
+            <script src="{{ absolute_url(asset('backoffice/assets/js/script.js')) }}"></script>
+        {% endblock %}
+    </body>
+</html>
