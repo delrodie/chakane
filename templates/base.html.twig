@@ -10,14 +10,336 @@
         <link rel="icon" href="{{ asset('assets/img/favicon.ico') }}">
         <link rel="manifest" href="{{ asset('assets/img/site.webmanifest') }}">
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         {% endblock %}
     </head>
     <body>
+        <section class="topbarSection">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-6">
+                    <div class="tbInfo">
+                        <i class="fa-solid fa-bolt-lightning"></i> Collection Terre d'Afrique
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-6">
+                    <div class="tbAccessNav">
+                        <div class="anSocial">
+                            <a class="fac" href="javascript:void(0);"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a class="twi" href="javascript:void(0);"><i class="fa-brands fa-twitter"></i></a>
+                            <a class="lin" href="javascript:void(0);"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a class="ins" href="javascript:void(0);"><i class="fa-brands fa-instagram"></i></a>
+                        </div>
+                        <div class="anSelects">
+                            <div class="anSelect">
+                                <select name="currency">
+                                    <option value="XOF">CFA</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"><div class="col-lg-12"><div class="tbBar"></div></div></div>
+        </div>
+    </section>
+        <header class="header01 h01Mode2 isSticky">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="headerInner02">
+                            <div class="logo">
+                                <a href="{{ absolute_url(path('app_home')) }}">
+                                    <img src="{{ absolute_url(asset('assets/img/logo_black.png')) }}" alt="CHAKANE"/>
+                                </a>
+                            </div>
+                            <div class="mainMenu">
+                                <ul>
+                                    <li><a href="javascript:void(0);">Accueil</a></li>
+                                    <li><a href="#">La marque</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="javascript:void(0);">Vêtements</a>
+                                        <div class="megaMenu">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <h3>Femmes</h3>
+                                                    <ul>
+                                                        <li><a href="#">Tout</a></li>
+                                                        <li><a href="#">Robes</a></li>
+                                                        <li><a href="#">Jupes</a></li>
+
+                                                        <h3 style="margin-top: 25px">Fillettes</h3>
+                                                        <ul>
+                                                            <li><a href="#">Tout</a></li>
+                                                        </ul>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h3>Hommes</h3>
+                                                    <ul>
+                                                        <li><a href="#">Tout</a></li>
+                                                        <li><a href="#">Chemises</a></li>
+                                                    </ul>
+                                                    <h3 style="margin-top: 25px">Garçons</h3>
+                                                    <ul>
+                                                        <li><a href="#">Tout</a></li>
+                                                        <li><a href="#">Chemises</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-4 hideOnMobile">
+                                                    <div class="lookBook01 lb01M2">
+                                                        <div class="lbContent">
+                                                            <h3>COLLECTIONS</h3>
+                                                            <h2>Terre d'Afrique</h2>
+                                                            <a href="#" class="ulinaLink">
+                                                                <i class="fa-solid fa-angle-right"></i>Toutes les collections
+                                                            </a>
+                                                        </div>
+                                                        <img src="images/collection/collection.png" alt="Mans Latest Collection">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="menu-item-has-children">
+                                        <a href="javascript:void(0);">Sacs & accessoires</a>
+                                        <ul>
+                                            <li><a href="#">Sacs</a></li>
+                                            <li><a href="#">Accesoires</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="contact.html">Contacts</a></li>
+                                </ul>
+                            </div>
+                            <div class="accessNav">
+                                <a href="javascript:void(0);" class="menuToggler"><i class="fa-solid fa-bars"></i> <span>Menu</span></a>
+                                <div class="anItems">
+                                    <div class="anSearch"><a href="javascript:void(0);"><i class="fa-solid fa-search"></i></a></div>
+                                    <div class="anUser"><a href="javascript:void(0);"><i class="fa-solid fa-user"></i></a></div>
+                                    <div class="anCart">
+                                        <a href="javascript:void(0);"><i class="fa-solid fa-shopping-cart"></i><span>3</span></a>
+                                        <!--<div class="cartWidgetArea">
+                                            <div class="cartWidgetProduct">
+                                                <img src="images/collection/01.png" alt="Marine Design">
+                                                <a href="shop_details2.html">Sac 1</a>
+                                                <div class="cartProductPrice clearfix">
+                                                    <span class="price"><span>50.000 <span>FCFA</span></span></span>
+                                                </div>
+                                                <a href="javascript:void(0);" class="cartRemoveProducts"><i class="fa-solid fa-xmark"></i></a>
+                                            </div>
+                                            <div class="cartWidgetProduct">
+                                                <img src="images/collection/02.png" alt="Draped Neck">
+                                                <a href="shop_details1.html">Sac 2</a>
+                                                <div class="cartProductPrice clearfix">
+                                                    <span class="price"><span>45.000 <span>FCFA</span></span></span>
+                                                </div>
+                                                <a href="javascript:void(0);" class="cartRemoveProducts"><i class="fa-solid fa-xmark"></i></a>
+                                            </div>
+                                            <div class="cartWidgetProduct">
+                                                <img src="images/collection/03.png" alt="Long Pleated">
+                                                <a href="shop_details2.html">Sac en bandoulière</a>
+                                                <div class="cartProductPrice clearfix">
+                                                    <span class="price"><span>43.000 <span> FCFA</span></span></span>
+                                                </div>
+                                                <a href="javascript:void(0);" class="cartRemoveProducts"><i class="fa-solid fa-xmark"></i></a>
+                                            </div>
+                                            <div class="totalPrice">Total: <span class="price"><span>133.000  <span>FCFA</span></span></span></div>
+                                            <div class="cartWidgetBTN clearfix">
+                                                <a class="cart" href="cart.html">Panier</a>
+                                                <a class="checkout" href="checkout.html">Checkout</a>
+                                            </div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="blankHeader"></div>
+        <section class="popup_search_sec">
+            <div class="popup_search_overlay"></div>
+            <div class="pop_search_background">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="popup_logo">
+                                <a href="{{ absolute_url(path('app_home')) }}"><img src="{{ asset('assets/img/logo_white.png') }}" alt="CHAKANE"></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <a href="javascript:void(0);" id="search_Closer" class="search_Closer"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="middle_search">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="popup_search_form">
+                                    <form method="get" action="#">
+                                        <input type="search" name="s" id="s" placeholder="Entrez les mots concernés ...">
+                                        <button type="submit"><i class="fa-solid fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         {% block body %}{% endblock %}
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <aside class="widget aboutWidget">
+                            <div class="footerLogo">
+                                <a href="{{ absolute_url(path('app_home')) }}"><img src="{{ absolute_url(asset('assets/img/logo_white.png')) }}" alt="Chakane"/></a>
+                            </div>
+                            <div class="aboutWidContent">
+                                "Terre d'Afrique" est une collection d'accessoires créée à base de pagnes tissés.
+                            </div>
+                            <div class="subscribForm">
+                                <form method="post" action="#">
+                                    <input type="email" name="subsEmail" placeholder="Adresse e-mail"/>
+                                    <button type="submit"><i class="fa-solid fa-envelope"></i></button>
+                                </form>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <aside class="widget">
+                            <h3 class="widgetTitle">Address</h3>
+                            <div class="addressContent">
+                                <div class="singleAddress">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    Cocody Riviéra 2 Sogefia
+                                    Ville 240 en face de la cité universitaire
+                                </div>
+                                <div class="singleAddress">
+                                    <i class="fa-solid fa-phone"></i>
+                                    +225 27 22 51 67 56 / 07 59 53 59 51
+                                </div>
+                                <div class="singleAddress">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <a href="mailto:info@terredafrique.com">info@terredafrique.com</a>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <aside class="widget">
+                            <h3 class="widgetTitle">Rubriques</h3>
+                            <ul>
+                                <li><a href="javascript:void(0);">La marque</a></li>
+                                <li><a href="javascript:void(0);">Les collections</a></li>
+                                <li><a href="javascript:void(0);">Contact</a></li>
+                                <li><a href="javascript:void(0);"></a></li>
+                            </ul>
+                        </aside>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <aside class="widget twoColMenu">
+                            <h3 class="widgetTitle">Vêtements</h3>
+                            <ul>
+                                <li><a href="javascript:void(0);">Femmes</a></li>
+                                <li><a href="javascript:void(0);">Hommes</a></li>
+                                <li><a href="javascript:void(0);">Filles</a></li>
+                                <li><a href="javascript:void(0);">Garçons</a></li>
+                                <li><a href="javascript:void(0);">Sacs</a></li>
+                                <li><a href="javascript:void(0);">Accessoires</a></li>
+                                <li><a href="javascript:void(0);"></a></li>
+                                <li><a href="javascript:void(0);"> </a></li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+                <div class="row footerAccessRow">
+                    <div class="col-md-6">
+                        <div class="footerSocial">
+                            <a href="javascript:void(0);"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-6">
+                        <div class="footerPayments">
+                            <a href="javascript:void(0);"><i class="fa-brands fa-cc-paypal"></i></a>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-cc-stripe"></i></a>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-cc-mastercard"></i></a>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-cc-visa"></i></a>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-cc-apple-pay"></i></a>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-cc-amazon-pay"></i></a>
+                        </div>
+                    </div>-->
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footerBar"></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <section class="siteInfoSection">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="siteInfo">
+                            Tous droits réservés  &nbsp;<a href="{{ absolute_url(path('app_home')) }}">Terre d'AFrique</a>&nbsp;&nbsp;&copy;&nbsp;&nbsp;2022
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="footerNav">
+                            <ul>
+                                <li><a href="javascript:void(0);">Conditions d'utilisation</a></li>
+                                <li><a href="javascript:void(0);">Politique de confidentialité</a></li>
+                                <li><a href="javascript:void(0);">Mention légale</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <a href="javascript:void(0);" id="backtotop"><i class="fa-solid fa-angles-up"></i></a>
+
+        {% block javascripts %}
+            <script src="{{ asset('assets/js/jquery.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('assets/js/shuffle.min.js') }}"></script>
+            <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+            <script src="{{ asset('assets/js/owl.carousel.filter.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.appear.js') }}"></script>
+            <script src="{{ asset('assets/js/lightcase.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.nice-select.js') }}"></script>
+            <script src="{{ asset('assets/js/slick.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.plugin.min.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.countdown.min.js') }}"></script>
+            <script src="{{ asset('assets/js/circle-progress.js') }}"></script>
+
+
+            <script src="{{ asset('assets/js/jquery.themepunch.tools.min.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.themepunch.revolution.min.js') }}"></script>
+
+            <script src="{{ asset('assets/js/extensions/revolution.extension.actions.min.js') }}"></script>
+            <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+            <script src="{{ asset('assets/js/extensions/revolution.extension.kenburn.min.js') }}"></script>
+            <script src="{{ asset('assets/js/extensions/revolution.extension.layeranimation.min.js') }}"></script>
+            <script src="{{ asset('assets/js/extensions/revolution.extension.migration.min.js') }}"></script>
+            <script src="{{ asset('assets/js/extensions/revolution.extension.navigation.min.js') }}"></script>
+            <script src="{{ asset('assets/js/extensions/revolution.extension.parallax.min.js') }}"></script>
+            <script src="{{ asset('assets/js/extensions/revolution.extension.slideanims.min.js') }}"></script>
+            <script src="{{ asset('assets/js/extensions/revolution.extension.video.min.js') }}"></script>
+
+            <script src="{{ asset('assets/js/theme.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
