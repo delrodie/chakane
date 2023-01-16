@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    {% for url in urls %}
+        <url>
+
+            <loc>{{ hostname }}{{ url.loc }}</loc>
+
+            {% if url.lastmod is defined %}
+                <lastmod>{{ url.lastmod }}</lastmod>
+            {% endif %}
+
+            {% if url.image is defined and url.image is not empty %}
+                <image:image>
+                    <image:loc>{{ hostname }}{{ url.image.loc }} </image:loc>
+                    <image:title>{{ url.image.title }}</image:title>
+                </image:image>
+            {% endif %}
+
+        </url>
+    {% endfor %}
+</urlset>
