@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -98,13 +98,22 @@
                         <div class="user-header">
                             <div class="avatar avatar-sm"> <img src="{{ asset('backoffice/assets/img/avatar.png') }}" alt="User Image" class="avatar-img rounded-circle"> </div>
                             <div class="user-text">
-                                <h6>Soeng Souy</h6>
-                                <p class="text-muted mb-0">Administrator</p>
+                                <h6>{{ app.user ? app.user.userIdentifier : 'Anonyme' }}</h6>
+                                <p class="text-muted mb-0">
+                                    {% if app.user %}
+                                        {% if app.user.roles|length > 1 %}
+                                            {% if app.user.roles[0] == 'ROLE_SUPER_ADMIN' %} Super Admin
+                                            {% elseif app.user.roles[0] == 'ROLE_ADMIN' %} Admin
+                                            {% else %} Editeur
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </p>
                             </div>
                         </div>
                         <a class="dropdown-item" href="#">Mes actions</a>
-                        <a class="dropdown-item" href="#">Mot de passe</a>
-                        <a class="dropdown-item" href="#">Deconnexion</a>
+                        <a class="dropdown-item" href="{{ path('app_change_password') }}">Mot de passe</a>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">Deconnexion</a>
                     </div>
                 </li>
             </ul>
