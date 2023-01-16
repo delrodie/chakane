@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Flasher\Prime\Flasher;
 use Flasher\Prime\FlasherInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -15,6 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\LogoutEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
 class AuthenticateSubscriber implements EventSubscriberInterface
@@ -24,7 +26,7 @@ class AuthenticateSubscriber implements EventSubscriberInterface
 
     public function __construct(
         private RequestStack $requestStack, private UserPasswordHasherInterface $passwordHasher,
-        private UserRepository $userRepository, private Flasher $flasher
+        private UserRepository $userRepository, private Flasher $flasher, private LoggerInterface $logger
     )
     {
     }
@@ -35,6 +37,7 @@ class AuthenticateSubscriber implements EventSubscriberInterface
             'security.authentication.success' => 'onSecurityAuthenticationSuccess',
             SecurityEvents::INTERACTIVE_LOGIN => 'onSecurityInteractiveLogin',
             KernelEvents::REQUEST => 'onKernelRequest',
+            'Symfony\Component\Security\Http\Event\LogoutEvent' => 'onSecurityLogout'
         ];
     }
 
@@ -74,13 +77,47 @@ class AuthenticateSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
-        //dd($event);
+        [
+            'route_name' =>$routeName,
+            'user_IP' => $userIP
+        ] = $this->getRouteNameAndUserIP();
+
+        $userEmail = $this->getUserEmail($event->getAuthenticationToken());
+
+        $this->logger->info("L'utilisateur '{$userEmail}' vient de se connecter via l'adresse IP: '{$userIP}' :-)");
+    }
+
+    public function onSecurityLogout(LogoutEvent $event): void
+    {
+        if (!$event->getResponse() || !$event->getToken()) return;
+
+        $userEmail =$this->getUserEmail($event->getToken());
+        ['user_IP' => $userIP] =$this->getRouteNameAndUserIP();
+        $date = date('Y-m-d H:i:s');
+
+        $this->logger->info("{$userEmail} s'est deconnecté depuis sur l'adresse IP {$userIP} à {$date}");
     }
 
     private function getUserEmail(TokenInterface $securityToken): string
     {
         return $securityToken->getUserIdentifier();
+    }
+
+    private function getRouteNameAndUserIP(): array
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if(!$request) {
+            $response = ['route_name' => 'Inconnue', 'user_IP' => 'Inconnue'];
+        }
+        else {
+            $response = [
+                'route_name' => $request->attributes->get('_route'),
+                'user_IP' => $request->getClientIp() ?? 'Inconnue',
+            ];
+        }
+
+        return $response;
     }
 }
