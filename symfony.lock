@@ -38,6 +38,9 @@
     "php-flasher/flasher-pnotify-symfony": {
         "version": "v1.13.0"
     },
+    "php-flasher/flasher-sweetalert-symfony": {
+        "version": "v1.13.0"
+    },
     "php-flasher/flasher-symfony": {
         "version": "v1.13.0"
     },

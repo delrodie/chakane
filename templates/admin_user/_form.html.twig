@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+<div class="row form-group">
+    <div class="col-12 mt-3">{{ form_row(form.email) }}</div>
+    <div class="col-12 mt-3">{{ form_row(form.password) }}</div>
+    <div class="col-12 mt-3">{{ form_row(form.roles) }}</div>
+</div>
+<div class="text-right mt-5">
+    {{ form_widget(form) }}
+    <a href="{{ path('app_admin_user_index') }}" class="btn btn-outline-secondary">Annuler</a>
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+</div>
+
+{{ form_end(form) }}
