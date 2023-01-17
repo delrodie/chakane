@@ -164,7 +164,7 @@
                         <li class="list-divider"></li>
                         <li class="menu-title mt-3"> <span>ADMINISTRATEUR</span> </li>
                         <li> <a href="{{ path('app_admin_user_index') }}"><i class="fas fa-user-cog"></i> <span>Utilisateurs</span></a> </li>
-                        <li> <a href="#"><i class="fas fa-cog"></i> <span>Monitoring</span></a> </li>
+                        <li> <a href="{{ path('app_backend_monitoring') }}"><i class="fas fa-cog"></i> <span>Monitoring</span></a> </li>
                     </ul>
                 </div>
             </div>
@@ -176,7 +176,7 @@
 
 
         {% block javascripts %}
-            <script src="{{ absolute_url(asset('backoffice/assets/js/jquery-3.5.1.min.js')) }}"></script>
+            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
             <script src="{{ absolute_url(asset('backoffice/assets/js/popper.min.js')) }}"></script>
             <script src="{{ absolute_url(asset('backoffice/assets/js/bootstrap.min.js')) }}"></script>
             <script src="{{ absolute_url(asset('backoffice/assets/plugins/slimscroll/jquery.slimscroll.min.js')) }}"></script>
