@@ -12,6 +12,11 @@ class AllRepositoty
     {
     }
 
+    /**
+     * Liste des logs enregistrés
+     * 
+     * @return array
+     */
     public function logs()
     {
         $path =$this->requestStack->getCurrentRequest()->server->get('DOCUMENT_ROOT').'/logs.json';

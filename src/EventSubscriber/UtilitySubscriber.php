@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Controller\Backend\BackendMonitoringController;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -33,12 +34,17 @@ class UtilitySubscriber implements EventSubscriberInterface
 
     public function onKernelController(ControllerEvent $event)
     {
-        //dd($event->getControllerReflector()->getAttributes());
+        $controller = $event->getController();
+
+        if (is_array($controller)) $controller = $controller[0];
+
+        if ($controller instanceof BackendMonitoringController){
+            //dd($event);
+        }
     }
 
     public function onKernelRequest(RequestEvent $event): void
     {
-
         $this->monitoring();
     }
 
