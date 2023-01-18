@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\SliderRepository;
-use App\Services\AllRepositoty;
+use App\Services\AllRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private AllRepositoty $allRepositoty, private SliderRepository $sliderRepository
+        private AllRepository $allRepository, private SliderRepository $sliderRepository
     )
     {
 
@@ -21,7 +21,7 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         return $this->render('frontend/home.html.twig',[
-            'slides' => $this->allRepositoty->cache('slider')
+            'slides' => $this->allRepository->cache('slider')
         ]);
     }
 
@@ -32,6 +32,20 @@ class HomeController extends AbstractController
         $urls = []; // Initialisation du tableau pour lister les urls
 
         $urls[] =['loc' => $this->generateUrl('app_home')]; // Generation des urls statics
+
+        // Presentation
+        $presentation = $this->allRepository->cachePresentation();
+        if ($presentation){
+            $image = [
+                'loc' => "/uploads/marque/{$presentation->getMedia()}",
+                'title' => $presentation->getTitre()
+            ];
+            $urls[] = [
+                'loc' => $this->generateUrl('app_frontend_marque_presentation'),
+                'lastmod' => $presentation->getUpdatedAt()->format('Y-m-d') ?? $presentation->getCreatedAt()->format('Y-m-d'),
+                'image' => $image
+            ];
+        }
 
         // Urls dynamiques
         /*

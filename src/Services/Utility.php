@@ -33,8 +33,8 @@ class Utility
         // Verification de la non existence de ce slug dansla base de données
         // Sinon assigner le slug formatté
         $verif =$this->$repository->findOneBy(['slug' => $slug]);
-        if ($verif) return false;
-        $entity->setSlug($slug);
+        //if ($verif) return false;
+        $entity->setSlug($slug); //dd($slug);
 
         // Generation du résumé
         if ($resume){

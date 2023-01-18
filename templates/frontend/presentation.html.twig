@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Presentation de la marque Chakane{% endblock %}
+
+{% block body %}
+ <section class="pageBannerSection">
+  <div class="container">
+   <div class="row">
+    <div class="col-lg-12">
+     <div class="pageBannerContent text-left">
+      <div class="pageBannerPath">
+       <a href="{{ absolute_url(path('app_home')) }}">Accueil</a>&nbsp;&nbsp;>&nbsp;&nbsp;<span>La marque</span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <section class="aboutPageSection01">
+  <div class="container">
+   <div class="row mb117">
+    <div class="col-xl-6 noPaddingRight">
+     <div class="aboutImage">
+      <div class="aiImgRow clearfix">
+       <img class="float-start aiImg01" src="https://via.placeholder.com/312x251" alt="About Ulina">
+       <img class="float-end aiImg02" src="https://via.placeholder.com/312x301" alt="About Ulina">
+      </div>
+      <div class="aiImgRow clearfix">
+       <img class="float-start aiImg03" src="https://via.placeholder.com/179x170" alt="About Ulina">
+       <img class="float-end aiImg04" src="https://via.placeholder.com/402x301" alt="About Ulina">
+      </div>
+      <div class="aiCounter">
+       <img src="{{ absolute_url(asset('uploads/marque/' ~ presentation.media )) }}" alt="" class="img-fluid">
+      </div>
+     </div>
+    </div>
+    <div class="col-xl-6">
+     <div class="aboutContent">
+      <h3 class="secSubTitle text-capitalize">La marque</h3>
+      <h2 class="secTitle">{{ presentation.titre }}</h2>
+      <div class="abDesc text-justify">{{ presentation.contenu|raw }}</div>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-lg-12">
+     <div class="counterArea">
+      <div class="row">
+       <div class="col-md-4">
+        <div class="singleCounter02">
+         <h2><span class="timer" data-count="120">120</span><span class="timerSuffix">K</span></h2>
+         <h3>Total <br>Products</h3>
+        </div>
+       </div>
+       <div class="col-md-4">
+        <div class="singleCounter02">
+         <h2><span class="timer" data-count="2">2</span><span class="timerSuffix">K</span></h2>
+         <h3>Worldwide <br>Customers</h3>
+        </div>
+       </div>
+       <div class="col-md-4">
+        <div class="singleCounter02">
+         <h2><span class="timer" data-count="10">10</span><span class="timerSuffix">K</span></h2>
+         <h3>Completed <br>Orders</h3>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+{% endblock %}
+
+{% block metas %}
+ <link rel="alternate" href="{{ absolute_url(path('app_frontend_marque_presentation')) }}" hreflang="fr">
+
+ <meta name="keywords" content="{{ presentation.tags }}">
+ <meta name="description" content="{{ presentation.resume|raw }}" />
+ <link rel="canonical" href="{{ absolute_url(path('app_frontend_marque_presentation')) }}" />
+ <link rel="next" href=" {{ absolute_url(path('app_home')) }}" />
+
+ <meta property="og:locale" content="fr_FR" />
+ <meta property="og:locale:alternate" content="en_US" />
+ <meta property="og:type" content="website" />
+ <meta property="og:title" content="{{ presentation.titre }}" />
+ <meta property="og:description" content="{{ presentation.resume|raw }}" />
+ <meta property="og:url" content="{{ absolute_url(path('app_frontend_marque_presentation')) }}" />
+ <meta property="og:site_name" content="ITPC West Africa" />
+ <meta property="article:created_time" content="{{ presentation.updatedAt ? presentation.updatedAt|date('Y-m-d') : presentation.createdAt|date('Y-m-d') }}T{{ presentation.updatedAt ? presentation.updatedAt|date('H:i:s') : presentation.createdAt|date('H:i:s') }}+00:00" />
+ <meta property="og:image" content="{{ absolute_url(asset('uploads/marque/'~ presentation.media)) }}" />
+ <meta property="og:image:type" content="image/svg+xml" />
+ <meta name="twitter:card" content="summary_large_image" />
+ <meta name="twitter:description" content="{{ presentation.resume|raw }}"/>
+ <meta name="twitter:title" content="{{ presentation.titre }}"/>
+ <meta name="twitter:domain" content="Chakane"/>
+ <meta name="twitter:image:src" content="{{ absolute_url(asset('uploads/marque/' ~ presentation.media)) }}"/>
+{% endblock %}

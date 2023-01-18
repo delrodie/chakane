@@ -13,3 +13,26 @@
 @import url('./preset.min.css');
 @import url('./theme.min.css');
 @import url('./responsive.min.css');
+
+.pageBannerSection{
+  min-height: 10px;
+}
+
+.pageBannerContent{
+  position: relative;
+  padding: 20px 0 30px;
+}
+
+.aiCounter{
+  text-align: center;
+  margin: auto 0;
+  //  display: flex;
+  justify-content: center;
+  left: 156px;
+  top: 212px;
+  width: 198px;
+
+  img{
+    margin: 30px 0;
+  }
+}

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Backend;
 
-use App\Services\AllRepositoty;
+use App\Services\AllRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,10 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class BackendMonitoringController extends AbstractController
 {
     #[Route('/', name: 'app_backend_monitoring')]
-    public function index(Request $request, AllRepositoty $allRepositoty): Response
+    public function index(Request $request, AllRepository $allRepository): Response
     {
         return $this->render('backend/monitoring.html.twig',[
-            'logs' => $allRepositoty->logs(),
+            'logs' => $allRepository->logs(),
         ]);
     }
 }

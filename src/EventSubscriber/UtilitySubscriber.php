@@ -4,7 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Controller\Backend\BackendMonitoringController;
 use App\Controller\Backend\BackendSliderController;
-use App\Services\AllRepositoty;
+use App\Services\AllRepository;
 use App\Services\Utility;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -28,7 +28,7 @@ class UtilitySubscriber implements EventSubscriberInterface
 
     public function __construct(
         private RequestStack $requestStack, private LoggerInterface $logger, private Security $security,
-        private AllRepositoty $allRepositoty
+        private AllRepository $allRepository
     )
     {
     }
@@ -121,6 +121,8 @@ class UtilitySubscriber implements EventSubscriberInterface
                     'app_backend_slider_index' => "{$user} a enregistré le slide {$request->get('slider')['titre']}",
                     'app_backend_slider_edit' => "{$user} a modifié le slide {$request->get('slider')['titre']}",
                     'app_backend_slider_delete' => "{$user} a supprimé un slide",
+                    'app_backend_presentation_new' => "{$user} a enregistré la presentation de la marque {$request->get('presentation')['titre']}",
+                    'app_backend_presentation_edit' => "{$user} a modifié la presentation de la marque {$request->get('presentation')['titre']}",
                     default => false,
                 };
             }else{
@@ -129,6 +131,7 @@ class UtilitySubscriber implements EventSubscriberInterface
                     'app_backend_dashboard' => "{$user} a affiché le tableau du bord dans le backoffice",
                     'app_admin_user_index' => "{$user} a affiché la liste des utilisateurs",
                     'app_backend_slider_index' => "{$user} a affiché la liste des sliders",
+                    'app_frontend_marque_presentation' => "{$user} a affiché la présentation de la marque",
                     default => false
                 };
             }
@@ -147,11 +150,12 @@ class UtilitySubscriber implements EventSubscriberInterface
     {
         if (!$route) return ;
         $backend =  match($route){
-            'app_backend_slider_index', 'app_backend_slider_edit', 'app_backend_slider_delete' => $this->allRepositoty->cache('slider', true, true),
+            'app_backend_slider_index', 'app_backend_slider_edit', 'app_backend_slider_delete' => $this->allRepository->cache('slider', true, true),
+            'app_backend_presentation_new', 'app_backend_presentation_edit', 'app_backend_presentation_delete' => $this->allRepository->cachePresentation(true),
             default => 0
         };
         $frontend =  match($route){
-            'app_backend_slider_index', 'app_backend_slider_edit', 'app_backend_slider_delete' => $this->allRepositoty->cache('slider', true),
+            'app_backend_slider_index', 'app_backend_slider_edit', 'app_backend_slider_delete' => $this->allRepository->cache('slider', true),
             default => 0
         };
 

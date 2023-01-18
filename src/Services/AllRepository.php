@@ -2,15 +2,17 @@
 
 namespace App\Services;
 
+use App\Repository\PresentationRepository;
 use App\Repository\SliderRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class AllRepositoty
+class AllRepository
 {
     public function __construct(
-        private RequestStack $requestStack, private CacheInterface $cache, private SliderRepository $sliderRepository
+        private RequestStack $requestStack, private CacheInterface $cache, private SliderRepository $sliderRepository,
+        private PresentationRepository $presentationRepository
     )
     {
     }
@@ -25,10 +27,19 @@ class AllRepositoty
         return $this->cache->get($cacheName, function (ItemInterface $item) use($entityName, $backend){
             $item->expiresAfter(6048000);
             $repository = "{$entityName}Repository";
-            if ($backend) $resultat = $this->$repository->findAll();
-            else $resultat = $this->$repository->findBy(['statut' => true]);
+            if ($backend) return  $this->$repository->findAll();
+            else return $this->$repository->findBy(['statut' => true]);
+        });
+    }
 
-            return $resultat;
+    public function cachePresentation(bool $delete=false)
+    {
+        $cacheName = "Presentation";
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item){
+            $item->expiresAfter(6048000);
+            return $this->presentationRepository->findOneBy([],['id'=>'DESC']);
         });
     }
 

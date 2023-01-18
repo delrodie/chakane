@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Backend;
 
 use App\Entity\Presentation;
 use App\Form\PresentationType;
@@ -85,7 +85,7 @@ class BackendPresentationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->utility->slug($presentation, 'presentation', true); // Gestion des slugs
             // Gestion des medias
-            $mediaFile = $form->get('media')->getData();
+            $mediaFile = $form->get('media')->getData(); //dd($presentation);
             if ($mediaFile){
                 $media = $this->gestionMedia->upload($mediaFile, 'presentation');
                 if ($presentation->getMedia())

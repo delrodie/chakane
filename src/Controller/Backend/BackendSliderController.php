@@ -5,7 +5,7 @@ namespace App\Controller\Backend;
 use App\Entity\Slider;
 use App\Form\SliderType;
 use App\Repository\SliderRepository;
-use App\Services\AllRepositoty;
+use App\Services\AllRepository;
 use App\Services\GestionMedia;
 use App\Services\Utility;
 use Flasher\Prime\Flasher;
@@ -20,7 +20,7 @@ class BackendSliderController extends AbstractController
     const EntityName = 'slider';
     public function __construct(
         private GestionMedia $gestionMedia, private Utility $utility, private Flasher $flasher,
-        private AllRepositoty $allRepositoty
+        private AllRepository $allRepository
     )
     {
     }

@@ -9,6 +9,30 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ absolute_url(asset('assets/img/favicon-16x16.png')) }}">
         <link rel="icon" href="{{ asset('assets/img/favicon.ico') }}">
         <link rel="manifest" href="{{ asset('assets/img/site.webmanifest') }}">
+        {% block metas %}
+            <link rel="alternate" href="{{ absolute_url(path('app_home')) }}" hreflang="fr">
+
+            <meta name="keywords" content="Chakane, vetement">
+            <meta name="description" content="" />
+            <link rel="canonical" href="{{ absolute_url(path('app_home')) }}" />
+            <link rel="next" href=" {{ absolute_url(path('app_frontend_marque_presentation')) }}" />
+
+            <meta property="og:locale" content="fr_FR" />
+            <meta property="og:locale:alternate" content="en_US" />
+            <meta property="og:type" content="website" />
+            <meta property="og:title" content="Chakane" />
+            <meta property="og:description" content="" />
+            <meta property="og:url" content="{{ absolute_url(path('app_home')) }}" />
+            <meta property="og:site_name" content="ITPC West Africa" />
+            <meta property="article:created_time" content="2023-01-18T16:53:21+00:00" />
+            <meta property="og:image" content="{{ absolute_url(asset('assets/img/logo_black.png')) }}" />
+            <meta property="og:image:type" content="image/svg+xml" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:description" content=""/>
+            <meta name="twitter:title" content="Chakane"/>
+            <meta name="twitter:domain" content="Chakane"/>
+            <meta name="twitter:image:src" content="{{ absolute_url(asset('assets/img/logo_black.png')) }}"/>
+        {% endblock %}
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         {% endblock %}
@@ -57,8 +81,8 @@
                             </div>
                             <div class="mainMenu">
                                 <ul>
-                                    <li><a href="javascript:void(0);">Accueil</a></li>
-                                    <li><a href="#">La marque</a></li>
+                                    <li><a href="{{ absolute_url(path('app_home') )}}">Accueil</a></li>
+                                    <li><a href="{{ absolute_url(path('app_frontend_marque_presentation')) }}">La marque</a></li>
                                     <li class="menu-item-has-children">
                                         <a href="javascript:void(0);">Vêtements</a>
                                         <div class="megaMenu">

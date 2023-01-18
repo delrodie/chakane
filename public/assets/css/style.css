@@ -12,5 +12,25 @@
 @import url("./preset.min.css");
 @import url("./theme.min.css");
 @import url("./responsive.min.css");
+.pageBannerSection {
+  min-height: 10px;
+}
+
+.pageBannerContent {
+  position: relative;
+  padding: 20px 0 30px;
+}
+
+.aiCounter {
+  text-align: center;
+  margin: auto 0;
+  justify-content: center;
+  left: 156px;
+  top: 212px;
+  width: 198px;
+}
+.aiCounter img {
+  margin: 30px 0;
+}
 
 /*# sourceMappingURL=style.css.map */
