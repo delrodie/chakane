@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use App\Repository\PresentationRepository;
 use App\Repository\SliderRepository;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Utility
 {
     public function __construct(
-        private SliderRepository $sliderRepository
+        private SliderRepository $sliderRepository, private PresentationRepository $presentationRepository
     )
     {
     }
@@ -38,7 +39,7 @@ class Utility
         // Generation du résumé
         if ($resume){
             $contenu =substr(strip_tags($entity->getContenu()), 0, 155);
-            $entity->setContenu($contenu);
+            $entity->setResume($contenu);
         }
 
         return $entity;

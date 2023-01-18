@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Presentation index{% endblock %}
+
+{% block body %}
+    <h1>Presentation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Resume</th>
+                <th>Contenu</th>
+                <th>Tags</th>
+                <th>Media</th>
+                <th>Slug</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for presentation in presentations %}
+            <tr>
+                <td>{{ presentation.id }}</td>
+                <td>{{ presentation.titre }}</td>
+                <td>{{ presentation.resume }}</td>
+                <td>{{ presentation.contenu }}</td>
+                <td>{{ presentation.tags }}</td>
+                <td>{{ presentation.media }}</td>
+                <td>{{ presentation.slug }}</td>
+                <td>{{ presentation.createdAt ? presentation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ presentation.updatedAt ? presentation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_backend_presentation_show', {'id': presentation.id}) }}">show</a>
+                    <a href="{{ path('app_backend_presentation_edit', {'id': presentation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_backend_presentation_new') }}">Create new</a>
+{% endblock %}

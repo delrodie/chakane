@@ -1,0 +1,38 @@
+{% extends 'backend_layout.html.twig' %}
+
+{% block title %}{{ parent() }} Gestion de la marque{% endblock %}
+
+{% block body %}
+    <div class="content container-fluid">
+        <div class="page-header mt-5">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="page-title">Gestion de la marque</h4> </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="blog-view">
+                        <article class="blog blog-single-post">
+                            <h3 class="blog-title">{{ presentation.titre }}</h3>
+                            <div class="blog-image">
+                                <a href="#"><img alt="" src="{{ asset('uploads/marque/' ~ presentation.media) }}" class="img-fluid"></a>
+                            </div>
+                            <div class="blog-content mt-4">{{ presentation.contenu|raw }}</div>
+                        </article>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6 text-right">{{ include('backend_presentation/_delete_form.html.twig') }}</div>
+                <div class="col-6">
+                    <a href="{{ path('app_backend_presentation_edit', {'id': presentation.id}) }}" class="btn btn-success">
+                        <i class="fas fa-pencil-alt"></i> Modifier
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

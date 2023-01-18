@@ -26,3 +26,4 @@ services:
     App\Services\GestionMedia:
         arguments:
             $slideDirectory: '%kernel.project_dir%/public/uploads/slide'
+            $presentationDirectory: '%kernel.project_dir%/public/uploads/marque'

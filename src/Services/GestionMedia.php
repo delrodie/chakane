@@ -9,11 +9,14 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class GestionMedia
 {
     private $mediaSlide;
+    private $mediaMarque;
+
     public function __construct(
-        $slideDirectory
+        $slideDirectory, $presentationDirectory
     )
     {
         $this->mediaSlide = $slideDirectory;
+        $this->mediaMarque = $presentationDirectory;
     }
 
 
@@ -34,6 +37,7 @@ class GestionMedia
         // Deplacement du fichier dans le repertoire dedié
         try {
             if ($media === 'slide') $file->move($this->mediaSlide, $newFilename);
+            elseif ($media === 'presentation') $file->move($this->mediaMarque, $newFilename);
             else $file->move($this->mediaSlide, $newFilename);
         }catch (FileException $e){
 
@@ -52,6 +56,7 @@ class GestionMedia
     public function removeUpload($ancienMedia, $media = null): bool
     {
         if ($media === 'slide') unlink($this->mediaSlide.'/'.$ancienMedia);
+        elseif ($media === 'presentation') unlink($this->mediaMarque.'/'.$ancienMedia);
         else return false;
 
         return true;

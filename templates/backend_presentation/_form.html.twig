@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+    <div class="row form-group mx-5 mb-5">
+        <div class="col-12 mt-3">{{ form_row(form.titre) }}</div>
+        <div class="col-12 mt-3">{{ form_row(form.contenu) }}</div>
+        <div class="col-6 mt-3">{{ form_row(form.media) }}</div>
+        <div class="col-6 mt-3">
+            {% if presentation.media %}
+                <img src="{{ asset('uploads/marque/' ~ presentation.media) }}" alt="{{ presentation.titre }}" class="img-fluid" style="max-width: 500px">
+            {% endif %}
+        </div>
+        <div class="col-6 mt-3">{{ form_row(form.tags) }}</div>
+    </div>
+    {{ form_widget(form) }}
+    <div class="text-right mt-5">
+        <a href="{{ path('app_backend_presentation_index') }}" class="btn btn-outline-secondary">Annuler</a>
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+{{ form_end(form) }}
