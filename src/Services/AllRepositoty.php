@@ -17,9 +17,12 @@ class AllRepositoty
 
     public function cache(string $entityName, bool $delete=false, bool $backend=false)
     {
-        if ($delete) $this->cache->delete($entityName);
+        if ($backend) $cacheName = $entityName.$backend;
+        else $cacheName = $entityName;
 
-        return $this->cache->get($entityName, function (ItemInterface $item) use($entityName, $backend){
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use($entityName, $backend){
             $item->expiresAfter(6048000);
             $repository = "{$entityName}Repository";
             if ($backend) $resultat = $this->$repository->findAll();

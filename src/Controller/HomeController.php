@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\SliderRepository;
+use App\Services\AllRepositoty;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,10 +11,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
+    public function __construct(
+        private AllRepositoty $allRepositoty, private SliderRepository $sliderRepository
+    )
+    {
+
+    }
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        return $this->render('frontend/home.html.twig');
+        return $this->render('frontend/home.html.twig',[
+            'slides' => $this->allRepositoty->cache('slider')
+        ]);
     }
 
     #[Route('/sitemap.xml', name: 'app_sitemap_xml', defaults: ["_format" => 'xml'])]

@@ -80,9 +80,7 @@ class BackendSliderController extends AbstractController
     #[Route('/{id}', name: 'app_backend_slider_show', methods: ['GET'])]
     public function show(Slider $slider): Response
     {
-        return $this->render('backend_slider/show.html.twig', [
-            'slider' => $slider,
-        ]);
+        return $this->redirectToRoute('app_backend_slider_index',[],Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/edit', name: 'app_backend_slider_edit', methods: ['GET', 'POST'])]

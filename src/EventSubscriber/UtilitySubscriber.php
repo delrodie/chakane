@@ -110,7 +110,7 @@ class UtilitySubscriber implements EventSubscriberInterface
 
     public function route_page(string $user, $route, string $method=null): bool|string
     {
-        $request = $this->requestStack->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest(); //dd($request);
         if (!$route) return false;
         else{
             if ($method === 'POST'){
@@ -118,6 +118,9 @@ class UtilitySubscriber implements EventSubscriberInterface
                     'app_admin_user_index' => "{$user} a enregistré l'utilisateur {$request->get('user')['email']}",
                     'app_admin_user_edit' => "{$user} a modifié l'utilisateur {$request->get('user')['email']}",
                     'app_admin_user_delete' => "{$user} a supprimé un utilisateur",
+                    'app_backend_slider_index' => "{$user} a enregistré le slide {$request->get('slider')['titre']}",
+                    'app_backend_slider_edit' => "{$user} a modifié le slide {$request->get('slider')['titre']}",
+                    'app_backend_slider_delete' => "{$user} a supprimé un slide",
                     default => false,
                 };
             }else{
@@ -125,6 +128,7 @@ class UtilitySubscriber implements EventSubscriberInterface
                     'app_home' => "{$user} a afficher la page d'accueil",
                     'app_backend_dashboard' => "{$user} a affiché le tableau du bord dans le backoffice",
                     'app_admin_user_index' => "{$user} a affiché la liste des utilisateurs",
+                    'app_backend_slider_index' => "{$user} a affiché la liste des sliders",
                     default => false
                 };
             }
@@ -142,10 +146,17 @@ class UtilitySubscriber implements EventSubscriberInterface
     public function route_cache(string $route)
     {
         if (!$route) return ;
-        return match($route){
+        $backend =  match($route){
             'app_backend_slider_index', 'app_backend_slider_edit', 'app_backend_slider_delete' => $this->allRepositoty->cache('slider', true, true),
             default => 0
         };
+        $frontend =  match($route){
+            'app_backend_slider_index', 'app_backend_slider_edit', 'app_backend_slider_delete' => $this->allRepositoty->cache('slider', true),
+            default => 0
+        };
+
+        return true;
+
     }
 
 }

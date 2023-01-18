@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -46,7 +47,7 @@ class SliderType extends AbstractType
                 ],
                 'required' => false
             ])
-            ->add('lien', TextType::class,[
+            ->add('lien', UrlType::class,[
                 'attr'=>['class' => 'form-control', 'placeholder'=>"Lien de la page", 'autocomplete'=>"off"],
                 'required' => false
             ])
