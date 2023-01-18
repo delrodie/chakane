@@ -3,13 +3,21 @@
 namespace App\EventSubscriber;
 
 use App\Controller\Backend\BackendMonitoringController;
+use App\Controller\Backend\BackendSliderController;
+use App\Services\AllRepositoty;
+use App\Services\Utility;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -19,7 +27,8 @@ class UtilitySubscriber implements EventSubscriberInterface
     const Password = 'CHAKANE';
 
     public function __construct(
-        private RequestStack $requestStack, private LoggerInterface $logger, private Security $security
+        private RequestStack $requestStack, private LoggerInterface $logger, private Security $security,
+        private AllRepositoty $allRepositoty
     )
     {
     }
@@ -28,13 +37,14 @@ class UtilitySubscriber implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST => 'onKernelRequest',
-            KernelEvents::CONTROLLER => 'onKernelController'
+            KernelEvents::CONTROLLER => 'onKernelController',
+            KernelEvents::RESPONSE => 'onKernelResponse',
         ];
     }
 
     public function onKernelController(ControllerEvent $event)
     {
-        $controller = $event->getController();
+        $controller = $event->getController(); //dd($event);
 
         if (is_array($controller)) $controller = $controller[0];
 
@@ -46,6 +56,16 @@ class UtilitySubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event): void
     {
         $this->monitoring();
+    }
+
+    public function onKernelResponse(ResponseEvent $event)
+    {
+        // Gestion du cache après opération dans le système
+        $method = $event->getRequest()->getMethod();
+        if ($method === 'POST') {
+            $route = $event->getRequest()->get('_route');
+            $this->route_cache($route);
+        }
     }
 
     public function monitoring(): void
@@ -111,6 +131,21 @@ class UtilitySubscriber implements EventSubscriberInterface
 
             return $action;
         }
+    }
+
+    /**
+     * Réinitialisation du cache après enregistrement dans le système
+     *
+     * @param string $route
+     * @return int|mixed|void
+     */
+    public function route_cache(string $route)
+    {
+        if (!$route) return ;
+        return match($route){
+            'app_backend_slider_index', 'app_backend_slider_edit', 'app_backend_slider_delete' => $this->allRepositoty->cache('slider', true, true),
+            default => 0
+        };
     }
 
 }

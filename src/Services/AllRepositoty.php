@@ -2,19 +2,36 @@
 
 namespace App\Services;
 
+use App\Repository\SliderRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class AllRepositoty
 {
     public function __construct(
-        private RequestStack $requestStack
+        private RequestStack $requestStack, private CacheInterface $cache, private SliderRepository $sliderRepository
     )
     {
     }
 
+    public function cache(string $entityName, bool $delete=false, bool $backend=false)
+    {
+        if ($delete) $this->cache->delete($entityName);
+
+        return $this->cache->get($entityName, function (ItemInterface $item) use($entityName, $backend){
+            $item->expiresAfter(6048000);
+            $repository = "{$entityName}Repository";
+            if ($backend) $resultat = $this->$repository->findAll();
+            else $resultat = $this->$repository->findBy(['statut' => true]);
+
+            return $resultat;
+        });
+    }
+
     /**
      * Liste des logs enregistrés
-     * 
+     *
      * @return array
      */
     public function logs()

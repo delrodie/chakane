@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Slider{% endblock %}
+
+{% block body %}
+    <h1>Slider</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ slider.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ slider.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ slider.description }}</td>
+            </tr>
+            <tr>
+                <th>Media</th>
+                <td>{{ slider.media }}</td>
+            </tr>
+            <tr>
+                <th>Lien</th>
+                <td>{{ slider.lien }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ slider.statut ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ slider.slug }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ slider.createdAt ? slider.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_backend_slider_index') }}">back to list</a>
+
+    <a href="{{ path('app_backend_slider_edit', {'id': slider.id}) }}">edit</a>
+
+    {{ include('backend_slider/_delete_form.html.twig') }}
+{% endblock %}
