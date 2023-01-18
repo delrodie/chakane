@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repository\FamilleRepository;
 use App\Repository\PresentationRepository;
 use App\Repository\SliderRepository;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -9,7 +10,8 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class Utility
 {
     public function __construct(
-        private SliderRepository $sliderRepository, private PresentationRepository $presentationRepository
+        private SliderRepository $sliderRepository, private PresentationRepository $presentationRepository,
+        private FamilleRepository $familleRepository
     )
     {
     }
@@ -39,6 +41,23 @@ class Utility
         // Generation du résumé
         if ($resume){
             $contenu =substr(strip_tags($entity->getContenu()), 0, 155);
+            $entity->setResume($contenu);
+        }
+
+        return $entity;
+    }
+
+    public function slug2(object $entity, string $entityName, bool $resume=false)
+    {
+        $repository = "{$entityName}Repository";
+
+        // Generation du slug
+        $slugify = new AsciiSlugger();
+        $slug = $slugify->slug($entity->getTitre());
+        $entity->setSlug($slug);
+
+        if ($resume){
+            $contenu = substr(strip_tags($entity->getDescription()), 0, 155);
             $entity->setResume($contenu);
         }
 

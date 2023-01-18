@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+    <div class="row form-group">
+        <div class="col-12 mt-3">{{ form_row(form.titre) }}</div>
+        <div class="col-12 mt-3">{{ form_row(form.description) }}</div>
+        <div class="col-12 mt-3">{{ form_row(form.media) }}</div>
+        {% if famille.media %}
+            <div class="col-12 mt-3">
+                <img src="{{ asset('uploads/famille/' ~ famille.media) }}" alt="{{ famille.titre }}" class="img-fluid">
+            </div>
+        {% endif %}
+        <div class="col-12 mt-3">
+            <div class="custom-control custom-checkbox">
+                {{ form_widget(form.statut) }}
+                {{ form_label(form.statut) }}
+            </div>
+            {{ form_errors(form.statut) }}
+        </div>
+    </div>
+    <div class="text-right mt-5">
+        <a href="{{ path('app_backend_famille_index') }}" class="btn btn-outline-secondary">Annuler</a>
+        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+    {{ form_widget(form) }}
+{{ form_end(form) }}

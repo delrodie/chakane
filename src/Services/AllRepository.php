@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repository\FamilleRepository;
 use App\Repository\PresentationRepository;
 use App\Repository\SliderRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -12,7 +13,7 @@ class AllRepository
 {
     public function __construct(
         private RequestStack $requestStack, private CacheInterface $cache, private SliderRepository $sliderRepository,
-        private PresentationRepository $presentationRepository
+        private PresentationRepository $presentationRepository, private FamilleRepository $familleRepository
     )
     {
     }
@@ -40,6 +41,18 @@ class AllRepository
         return $this->cache->get($cacheName, function (ItemInterface $item){
             $item->expiresAfter(6048000);
             return $this->presentationRepository->findOneBy([],['id'=>'DESC']);
+        });
+    }
+
+    public function cacheFamille(string $entityName, string $slug=null, bool $delete=false)
+    {
+        $cacheName = $entityName.$slug;
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use($slug){
+            $item->expiresAfter(6048000);
+            if ($slug) return $this->familleRepository->findOneBy(['slug' => $slug]);
+            else return $this->familleRepository->findBy(['statut' => true]);
         });
     }
 

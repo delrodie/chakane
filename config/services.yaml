@@ -27,3 +27,10 @@ services:
         arguments:
             $slideDirectory: '%kernel.project_dir%/public/uploads/slide'
             $presentationDirectory: '%kernel.project_dir%/public/uploads/marque'
+            $familleDirectory: '%kernel.project_dir%/public/uploads/famille'
+
+    App\EventListener\DatabaseActivitySubscriber:
+        tags:
+            - name: 'doctrine.event_subscriber'
+              priority: 500
+              connection: 'default'

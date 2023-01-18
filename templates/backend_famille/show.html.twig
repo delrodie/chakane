@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Famille{% endblock %}
+
+{% block body %}
+    <h1>Famille</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ famille.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ famille.code }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ famille.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ famille.description }}</td>
+            </tr>
+            <tr>
+                <th>Media</th>
+                <td>{{ famille.media }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ famille.slug }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ famille.createdAt ? famille.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ famille.updatedAt ? famille.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ famille.statut ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_backend_famille_index') }}">back to list</a>
+
+    <a href="{{ path('app_backend_famille_edit', {'id': famille.id}) }}">edit</a>
+
+    {{ include('backend_famille/_delete_form.html.twig') }}
+{% endblock %}
