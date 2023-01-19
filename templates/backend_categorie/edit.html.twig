@@ -1,0 +1,55 @@
+{% extends 'backend_layout.html.twig' %}
+
+{% block title %}{{ parent() }}Gestion des sliders{% endblock %}
+
+{% block body %}
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12 mt-5">
+                    <h3 class="page-title mt-3">Gestion des sliders</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item active">Creation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title float-left mt-2">Formulaire</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ include('backend_categorie/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+                        {{ include('backend_categorie/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="{{ asset('backoffice/assets/css/app.css') }}">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    <script src="{{ asset('backoffice/assets/js/upload-init.js') }}"></script>
+    <script type='text/javascript'>
+
+        $("input[data-preview]").change(function() {
+            var $input = $(this);
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            fileReader.onload = function(fileEvent) {
+                $($input.data('preview')).attr('src', fileEvent.target.result);
+            };
+        });
+    </script>
+{% endblock %}

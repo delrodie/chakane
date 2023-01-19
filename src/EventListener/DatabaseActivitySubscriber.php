@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Entity\Categorie;
 use App\Entity\Famille;
 use App\Repository\FamilleRepository;
 use App\Services\AllRepository;
@@ -10,11 +11,14 @@ use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Flasher\Prime\Flasher;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class DatabaseActivitySubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private Utility $utility, private Flasher $flasher, private AllRepository $allRepository
+        private Utility $utility, private Flasher $flasher, private AllRepository $allRepository,
+        private UrlGeneratorInterface $urlGenerator
     )
     {
     }
@@ -33,9 +37,15 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
         $entity = $args->getObject();
         $repo = $args->getObjectManager();
 
+        // Gestion de la famille
         if ($entity instanceof Famille){
             $this->famille($args);
             $this->allRepository->cacheFamille('famille', null, true);
+        }
+
+        // Gestion de la categorie
+        if ($entity instanceof Categorie){
+            $this->categorie($args);
         }
     }
 
@@ -47,6 +57,10 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
             $this->famille($args);
             $this->allRepository->cacheFamille('famille', null, true);
             $this->allRepository->cacheFamille('famille', $entity->getSlug(), true);
+        }
+
+        if ($entity instanceof Categorie){
+            $this->categorie($args);
         }
     }
 
@@ -71,5 +85,29 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
         $repositoty->getRepository(Famille::class)->save($entity, true);
     }
 
+    private function categorie(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+        $repository = $args->getObjectManager();
+
+        // Generation de code de la catégorie
+        $id = $entity->getId();
+        if ($id < 10) $ref = "0{$id}";
+        else $ref = $id;
+
+        $code = $entity->getFamille()->getCode().$ref;
+
+        $entity->setCode($code);
+        $entity->setSlug($this->slug($args));
+
+        $repository->getRepository(Categorie::class)->save($entity, true);
+    }
+
+    private function slug(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+
+        return (new AsciiSlugger())->slug(strtolower($entity->getTitre()));
+    }
 
 }

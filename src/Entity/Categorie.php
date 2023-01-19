@@ -2,15 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\FamilleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\CategorieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FamilleRepository::class)]
+#[ORM\Entity(repositoryClass: CategorieRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Famille
+class Categorie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,16 +36,14 @@ class Famille
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'categories')]
+    private ?Famille $famille = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tags = null;
+
     #[ORM\Column(nullable: true)]
     private ?bool $statut = null;
-
-    #[ORM\OneToMany(mappedBy: 'famille', targetEntity: Categorie::class)]
-    private Collection $categories;
-
-    public function __construct()
-    {
-        $this->categories = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -138,14 +134,14 @@ class Famille
         return $this;
     }
 
-    public function isStatut(): ?bool
+    public function getFamille(): ?Famille
     {
-        return $this->statut;
+        return $this->famille;
     }
 
-    public function setStatut(?bool $statut): self
+    public function setFamille(?Famille $famille): self
     {
-        $this->statut = $statut;
+        $this->famille = $famille;
 
         return $this;
     }
@@ -153,7 +149,7 @@ class Famille
     #[ORM\PrePersist]
     public function setCreatedAtValue(): \DateTime
     {
-        return $this->createdAt = new \DateTime();
+        return $this->createdAt = new  \DateTime();
     }
 
     #[ORM\PreUpdate]
@@ -162,32 +158,26 @@ class Famille
         return $this->updatedAt = new \DateTime();
     }
 
-    /**
-     * @return Collection<int, Categorie>
-     */
-    public function getCategories(): Collection
+    public function getTags(): ?string
     {
-        return $this->categories;
+        return $this->tags;
     }
 
-    public function addCategory(Categorie $category): self
+    public function setTags(?string $tags): self
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-            $category->setFamille($this);
-        }
+        $this->tags = $tags;
 
         return $this;
     }
 
-    public function removeCategory(Categorie $category): self
+    public function isStatut(): ?bool
     {
-        if ($this->categories->removeElement($category)) {
-            // set the owning side to null (unless already changed)
-            if ($category->getFamille() === $this) {
-                $category->setFamille(null);
-            }
-        }
+        return $this->statut;
+    }
+
+    public function setStatut(?bool $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

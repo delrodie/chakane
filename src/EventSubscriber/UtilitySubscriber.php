@@ -123,6 +123,9 @@ class UtilitySubscriber implements EventSubscriberInterface
                     'app_backend_slider_delete' => "{$user} a supprimé un slide",
                     'app_backend_presentation_new' => "{$user} a enregistré la presentation de la marque {$request->get('presentation')['titre']}",
                     'app_backend_presentation_edit' => "{$user} a modifié la presentation de la marque {$request->get('presentation')['titre']}",
+                    'app_backend_famille_index' => "{$user} a enregistré la famille {$request->get('famille')['titre']}",
+                    'app_backend_famille_edit' => "{$user} a modifié la famille {$request->get('famille')['titre']}",
+                    'app_backend_famille_delete' => "{$user} a supprimé une famille ",
                     default => false,
                 };
             }else{
@@ -132,6 +135,7 @@ class UtilitySubscriber implements EventSubscriberInterface
                     'app_admin_user_index' => "{$user} a affiché la liste des utilisateurs",
                     'app_backend_slider_index' => "{$user} a affiché la liste des sliders",
                     'app_frontend_marque_presentation' => "{$user} a affiché la présentation de la marque",
+                    'app_backend_famille_index' => "{$user} a affiché la liste des familles",
                     default => false
                 };
             }

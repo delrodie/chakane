@@ -52,7 +52,7 @@ class BackendSliderController extends AbstractController
         }
 
         return $this->render('backend_slider/index.html.twig', [
-            'sliders' => $this->allRepositoty->cache(self::EntityName, false, true),
+            'sliders' => $this->allRepository->cache(self::EntityName, false, true),
             'slider' => $slider,
             'form' => $form,
         ]);

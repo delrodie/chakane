@@ -28,6 +28,7 @@ services:
             $slideDirectory: '%kernel.project_dir%/public/uploads/slide'
             $presentationDirectory: '%kernel.project_dir%/public/uploads/marque'
             $familleDirectory: '%kernel.project_dir%/public/uploads/famille'
+            $categorieDirectory: '%kernel.project_dir%/public/uploads/categorie'
 
     App\EventListener\DatabaseActivitySubscriber:
         tags:
