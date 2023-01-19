@@ -56,6 +56,11 @@ class AllRepository
         });
     }
 
+    public function cacheCategorie(string $entityName, string $slug=null, bool $delete=false)
+    {
+        //$cacheName = $entityName.$c
+    }
+
     /**
      * Liste des logs enregistrés
      *

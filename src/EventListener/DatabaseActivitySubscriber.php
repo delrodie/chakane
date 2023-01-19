@@ -4,6 +4,7 @@ namespace App\EventListener;
 
 use App\Entity\Categorie;
 use App\Entity\Famille;
+use App\Entity\Genre;
 use App\Repository\FamilleRepository;
 use App\Services\AllRepository;
 use App\Services\Utility;
@@ -47,6 +48,11 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
         if ($entity instanceof Categorie){
             $this->categorie($args);
         }
+
+        // Gestion du genre
+        if ($entity instanceof Genre){
+            $this->genre($args);
+        }
     }
 
     public function postUpdate(LifecycleEventArgs $args)
@@ -61,6 +67,10 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
 
         if ($entity instanceof Categorie){
             $this->categorie($args);
+        }
+
+        if ($entity instanceof Genre){
+            $this->genre($args);
         }
     }
 
@@ -101,6 +111,14 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
         $entity->setSlug($this->slug($args));
 
         $repository->getRepository(Categorie::class)->save($entity, true);
+    }
+
+    private function genre(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+        $entity->setSlug($this->slug($args));
+
+        $args->getObjectManager()->getRepository(Genre::class)->save($entity, true);
     }
 
     private function slug(LifecycleEventArgs $args)
