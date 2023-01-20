@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Categorie;
 use App\Entity\Famille;
+use App\Entity\Genre;
 use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -65,6 +66,15 @@ class CategorieType extends AbstractType
                 'attr'=>['class'=>'form-control', 'data-role'=>'tagsinput'],
                 'required' => true,
                 'label' => "Mots clés"
+            ])
+            ->add('genre', EntityType::class,[
+                'attr' => ['class'=>'form-control select2'],
+                'class' => Genre::class,
+                'query_builder' => function (EntityRepository $er){
+                return $er->createQueryBuilder('g')->orderBy('g.titre', "ASC");
+                },
+                'choice_label' => 'titre',
+                'multiple' => true
             ])
         ;
     }

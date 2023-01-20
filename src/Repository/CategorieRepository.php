@@ -39,6 +39,28 @@ class CategorieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllWithJoin(string $slug=null, string $genre=null)
+    {
+        $query =  $this->createQueryBuilder('c')
+            ->addSelect('f')
+            ->addSelect('g')
+            ->leftJoin('c.famille', 'f')
+            ->leftJoin('c.genre', 'g')
+            ;
+
+        if ($slug){
+            $query->where('c.slug LIKE :slug')
+                ->setParameter('slug', "%{$slug}%");
+        }
+
+        if ($genre){
+            $query->where('g.titre LIKE :genre')
+                ->setParameter('genre', "%{$genre}%");
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Categorie[] Returns an array of Categorie objects
 //     */

@@ -34,6 +34,7 @@
                                     <th class="text-center">CODES</th>
                                     <th class="text-center">TITRES</th>
                                     <th class="text-center">DESCRIPTIONS</th>
+                                    <th class="text-center">GENRES</th>
                                     <th class="text-center">STATUTS</th>
                                     <th class="text-center">ACTIONS</th>
                                 </tr>
@@ -52,6 +53,11 @@
                                             </h2>
                                         </td>
                                         <td>{{ categorie.description|raw }}</td>
+                                        <td class="text-center">
+                                            {% for genre in categorie.genre %}
+                                                {{ loop.last ? genre.titre : genre.titre~' - ' }}
+                                            {% endfor %}
+                                        </td>
                                         <td class="text-center">{{ categorie.statut ? '<span class="badge bg-success-light">ACTIF</span>' : '<span class="badge badge-danger">INACTIF</span>'}}</td>
                                         <td class="text-center">
                                             <div class="dropdown dropdown-action"> <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v ellipse_color"></i></a>

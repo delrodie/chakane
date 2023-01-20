@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repository\CategorieRepository;
 use App\Repository\FamilleRepository;
 use App\Repository\PresentationRepository;
 use App\Repository\SliderRepository;
@@ -13,7 +14,8 @@ class AllRepository
 {
     public function __construct(
         private RequestStack $requestStack, private CacheInterface $cache, private SliderRepository $sliderRepository,
-        private PresentationRepository $presentationRepository, private FamilleRepository $familleRepository
+        private PresentationRepository $presentationRepository, private FamilleRepository $familleRepository,
+        private CategorieRepository $categorieRepository
     )
     {
     }
@@ -26,7 +28,7 @@ class AllRepository
         if ($delete) $this->cache->delete($cacheName);
 
         return $this->cache->get($cacheName, function (ItemInterface $item) use($entityName, $backend){
-            $item->expiresAfter(6048000);
+            $item->expiresAfter(604800);
             $repository = "{$entityName}Repository";
             if ($backend) return  $this->$repository->findAll();
             else return $this->$repository->findBy(['statut' => true]);
@@ -39,7 +41,7 @@ class AllRepository
         if ($delete) $this->cache->delete($cacheName);
 
         return $this->cache->get($cacheName, function (ItemInterface $item){
-            $item->expiresAfter(6048000);
+            $item->expiresAfter(604800);
             return $this->presentationRepository->findOneBy([],['id'=>'DESC']);
         });
     }
@@ -50,7 +52,7 @@ class AllRepository
         if ($delete) $this->cache->delete($cacheName);
 
         return $this->cache->get($cacheName, function (ItemInterface $item) use($slug){
-            $item->expiresAfter(6048000);
+            $item->expiresAfter(604800);
             if ($slug) return $this->familleRepository->findOneBy(['slug' => $slug]);
             else return $this->familleRepository->findBy(['statut' => true]);
         });
@@ -58,7 +60,14 @@ class AllRepository
 
     public function cacheCategorie(string $entityName, string $slug=null, bool $delete=false)
     {
-        //$cacheName = $entityName.$c
+        $cacheName = $entityName.$slug;
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use ($slug){
+            $item->expiresAfter(604800);
+            if (!$slug) return $this->categorieRepository->findAllWithJoin();
+            else return $this->categorieRepository->findAllWithJoin($slug);
+        });
     }
 
     /**
