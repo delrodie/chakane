@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repository\CategorieRepository;
 use App\Repository\FamilleRepository;
 use App\Repository\PresentationRepository;
+use App\Repository\ProduitRepository;
 use App\Repository\SliderRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -15,7 +16,7 @@ class AllRepository
     public function __construct(
         private RequestStack $requestStack, private CacheInterface $cache, private SliderRepository $sliderRepository,
         private PresentationRepository $presentationRepository, private FamilleRepository $familleRepository,
-        private CategorieRepository $categorieRepository
+        private CategorieRepository $categorieRepository, private ProduitRepository $produitRepository
     )
     {
     }
@@ -67,6 +68,18 @@ class AllRepository
             $item->expiresAfter(604800);
             if (!$slug) return $this->categorieRepository->findAllWithJoin();
             else return $this->categorieRepository->findAllWithJoin($slug);
+        });
+    }
+
+    public function cacheProduit(string $entityName, string $slug=null, bool $delete=false)
+    {
+        $cacheName = $entityName.$slug;
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use ($slug){
+            $item->expiresAfter(604800);
+            if (!$slug) return $this->produitRepository->findAll();
+            else return $this->produitRepository->findOneBy(['slug' => $slug]);
         });
     }
 

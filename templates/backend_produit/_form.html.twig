@@ -1,0 +1,32 @@
+{{ form_start(form) }}
+    <div class="row form-group">
+        <div class="col-6 mt-3">{{ form_row(form.categorie) }}</div>
+        <div class="col-6 mt-3">{{ form_row(form.titre) }}</div>
+        <div class="col-6 mt-3">{{ form_row(form.cfaPrix) }}</div>
+        <div class="col-6 mt-3">{{ form_row(form.cfaSolde) }}</div>
+        <div class="col-4 mt-3">{{ form_row(form.taille) }}</div>
+        <div class="col-4 mt-3">{{ form_row(form.coleur) }}</div>
+        <div class="col-4 mt-3">{{ form_row(form.poids) }}</div>
+        <div class="col-12 mt-3">{{ form_row(form.description) }}</div>
+        <div class="col-6 mt-3">{{ form_row(form.media) }}</div>
+        <div class="col-4 mt-3">
+            {% if produit.media %}
+                <img src="{{ asset('uploads/produit/' ~ produit.media) }}" alt="" class="img-fluid">
+            {% endif %}
+        </div>
+        <div class="col-6 mt-3">{{ form_row(form.niveau) }}</div>
+        <div class="col-6 mt-3">{{ form_row(form.tags) }}</div>
+        <div class="col-12 mt-3">
+            <div class="custom-control custom-checkbox">
+                {{ form_widget(form.promotion) }}
+                {{ form_label(form.promotion) }}
+            </div>
+            {{ form_errors(form.promotion) }}
+        </div>
+    </div>
+    {{ form_widget(form) }}
+    <div class="text-right mt-5">
+        <a href="{{ path('app_backend_produit_index') }}" class="btn btn-outline-secondary">Annuler</a>
+        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+{{ form_end(form) }}

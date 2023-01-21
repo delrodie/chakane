@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Entity\Categorie;
 use App\Entity\Famille;
 use App\Entity\Genre;
+use App\Entity\Produit;
 use App\Repository\FamilleRepository;
 use App\Services\AllRepository;
 use App\Services\Utility;
@@ -53,6 +54,14 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
         if ($entity instanceof Genre){
             $this->genre($args);
         }
+
+        // Gestion de produit
+        if ($entity instanceof Produit){
+            $this->produit($args);
+            $this->devise($args);
+            $this->allRepository->cacheProduit('produit', $entity->getSlug(), true);
+            $this->allRepository->cacheProduit('produit', null, true);
+        }
     }
 
     public function postUpdate(LifecycleEventArgs $args)
@@ -72,6 +81,13 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
         if ($entity instanceof Genre){
             $this->genre($args);
         }
+
+        if ($entity instanceof Produit){
+            $this->slug($args);
+            $this->devise($args);
+            $this->allRepository->cacheProduit('produit', null, true);
+            $this->allRepository->cacheProduit('produit', $entity->getSlug(), true);
+        }
     }
 
     public function postRemove(LifecycleEventArgs $args)
@@ -80,6 +96,11 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
 
         if ($entity instanceof Famille){
             $this->allRepository->cacheFamille('famille', null, true);
+        }
+
+        if ($entity instanceof  Produit){
+            $this->allRepository->cacheProduit('produit', null, true);
+            $this->allRepository->cacheProduit('produit', $entity->getSlug(), true);
         }
     }
 
@@ -119,6 +140,51 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
         $entity->setSlug($this->slug($args));
 
         $args->getObjectManager()->getRepository(Genre::class)->save($entity, true);
+    }
+
+    private function produit(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        // Generation de la reference
+        $id = (int) $entity->getId();
+        if ($id < 10) $ref = "000{$id}";
+        elseif ($id < 100) $ref = "00{$id}";
+        elseif ($id < 1000) $ref = "0{$id}";
+        else $ref = $id;
+
+        $reference = $entity->getCategorie()[0]->getCode().$ref;
+
+        // Assignation des valeurs
+        $entity->setReference($reference);
+        $entity->setSlug($this->slug($args).'-'.$reference);
+
+        $args->getObjectManager()->getRepository(Produit::class)->save($entity, true);
+
+    }
+
+    private function devise(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+
+        $cfaPrix = (int) $entity->getCfaPrix();
+        $euroPrix = round(1 / 656 * $cfaPrix, 2);
+        $usdPrix = round(1 / 605 * $cfaPrix, 2);
+
+        $euroSolde = null; $usdSolde = null;
+        if ($entity->getCfaSolde()){
+            $cfaSolde = (int) $entity->getCfaSolde();
+            $euroSolde = round(1 / 656 * $cfaSolde, 2);
+            $usdSolde = round(1 / 605 * $cfaSolde, 2);
+        }
+
+        // Assignation
+        $entity->setEuroPrix($euroPrix);
+        $entity->setUsdPrix($usdPrix);
+        $entity->setEuroSolde($euroSolde);
+        $entity->setUsdSolde($usdSolde);
+
+        $args->getObjectManager()->getRepository(Produit::class)->save($entity, true);
     }
 
     private function slug(LifecycleEventArgs $args)

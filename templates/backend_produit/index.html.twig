@@ -1,13 +1,13 @@
 {% extends 'backend_layout.html.twig' %}
 
-{% block title %}{{ parent() }}Gestion des categories{% endblock %}
+{% block title %}{{ parent() }}Gestion des produits{% endblock %}
 
 {% block body %}
     <div class="content container-fluid">
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12 mt-5">
-                    <h3 class="page-title mt-3">Gestion des categories</h3>
+                    <h3 class="page-title mt-3">Gestion des produits</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item active">Creation</li>
                     </ul>
@@ -16,7 +16,7 @@
         </div>
         <div class="row">
             <div class="col-12 text-right mb-3">
-                <a href="{{ path('app_backend_categorie_new') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> Ajouter</a>
+                <a href="{{ path('app_backend_produit_new') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> Ajouter</a>
             </div>
         </div>
         <div class="row">
@@ -31,62 +31,78 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">ID</th>
-                                    <th class="text-center">CODES</th>
-                                    <th class="text-center">TITRES</th>
-                                    <th class="text-center">DESCRIPTIONS</th>
-                                    <th class="text-center">GENRES</th>
-                                    <th class="text-center">STATUTS</th>
+                                    <th class="text-center">REFERENCES</th>
+                                    <th class="text-center">NOMS</th>
+                                    <th class="text-center">PRIX</th>
+                                    <th class="text-center">CATEGORIES</th>
+                                    <th class="text-center">PROMOTIONS</th>
+                                    <th class="text-center">NIVEAUX</th>
+                                    <th class="text-center">DIVERS</th>
                                     <th class="text-center">ACTIONS</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for categorie in categories %}
+                                {% for produit in produits %}
                                     <tr>
                                         <td>{{ loop.index }}</td>
-                                        <td class="text-center">{{ categorie.code }}</td>
+                                        <td class="text-center">{{ produit.reference }}</td>
                                         <td>
                                             <h2 class="table-avatar">
-                                                <a href="#" class="avatar avatar-sm mr-2" data-toggle="modal" data-target="#categorie{{ categorie.id }}">
-                                                    <img class="avatar-img rounded-circle" src="{{ asset('uploads/categorie/' ~ categorie.media) }}" alt="{{ categorie.titre }}">
+                                                <a href="#" class="avatar avatar-sm mr-2" data-toggle="modal" data-target="#produit{{ produit.id }}">
+                                                    <img class="avatar-img rounded-circle" src="{{ asset('uploads/produit/' ~ produit.media) }}" alt="{{ produit.titre }}">
                                                 </a>
-                                                <a href="#" data-toggle="modal" data-target="#categorie{{ categorie.id }}">{{ categorie.titre}} <span></span></a>
+                                                <a href="#" data-toggle="modal" data-target="#produit{{ produit.id }}">{{ produit.titre}} <span></span></a>
                                             </h2>
                                         </td>
-                                        <td>{{ categorie.description|slice(0,100)|raw }}</td>
+                                        <td>
+                                            {% if produit.cfaSolde %}
+                                                <strike>{{ produit.cfaPrix|number_format(0,'',' ') }}</strike>
+                                                {{ produit.cfaSolde|number_format(0,'',' ') }} FCFA
+                                            {% else %}
+                                                {{ produit.cfaPrix|number_format(0,'',' ') }}
+                                            {% endif %}
+
+                                        </td>
                                         <td class="text-center">
-                                            {% for genre in categorie.genre %}
-                                                {{ loop.last ? genre.titre : genre.titre~' - ' }}
+                                            {% for categorie in produit.categorie %}
+                                                {{ loop.last ? categorie.titre : categorie.titre~' - ' }}
                                             {% endfor %}
                                         </td>
-                                        <td class="text-center">{{ categorie.statut ? '<span class="badge bg-success-light">ACTIF</span>' : '<span class="badge badge-danger">INACTIF</span>'}}</td>
+                                        <td class="text-center">{{ produit.promotion ? '<span class="badge bg-success-light">OUI</span>' : '<span class="badge badge-danger">NON</span>'}}</td>
+                                        <td class="text-center">{{ produit.niveau }}</td>
+                                        <td class="text-center">
+                                            {{ produit.taille ? "Taille: "~produit.taille : '' }} |
+                                            {{ produit.coleur ? "Couleur: "~ produit.coleur : '' }}
+                                        </td>
                                         <td class="text-center">
                                             <div class="dropdown dropdown-action"> <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v ellipse_color"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{ path('app_backend_categorie_edit', {'id': categorie.id}) }}"><i class="fas fa-pencil-alt m-r-5"></i> Modifier</a>
-                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#categorie{{ categorie.id }}"><i class="fas fa-eye m-r-5"></i> Détails</a>
+                                                    <a class="dropdown-item" href="{{ path('app_backend_produit_edit', {'id': produit.id}) }}"><i class="fas fa-pencil-alt m-r-5"></i> Modifier</a>
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#produit{{ produit.id }}"><i class="fas fa-eye m-r-5"></i> Détails</a>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
 
-                                    <div class="modal fade" id="categorie{{ categorie.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="produit{{ produit.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">{{ categorie.titre }}</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">{{ produit.titre }}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <img src="{{ asset('uploads/categorie/' ~ categorie.media) }}" alt="{{ categorie.titre }}" class="img-fluid">
+                                                    <img src="{{ asset('uploads/produit/' ~ produit.media) }}" alt="{{ produit.titre }}" class="img-fluid">
                                                     <p>
-                                                        {{ categorie.description|raw }}
+                                                        {{ produit.description|raw }}
                                                     </p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times-circle m-r-5"></i> Close</button>
-                                                    <a href="{{ path('app_backend_categorie_edit', {'id': categorie.id}) }}" class="btn btn-primary"><i class="fas fa-pencil-alt m-r-5"></i> Modifier</a>
+                                                    <a href="{{ path('app_backend_produit_show', {'id': produit.id}) }}" class="btn btn-outline-primary"><i class="fas fa-eye m-r-5"></i> Détails</a>
+                                                    <a href="{{ path('app_backend_produit_edit', {'id': produit.id}) }}" class="btn btn-primary"><i class="fas fa-pencil-alt m-r-5"></i> Modifier</a>
                                                 </div>
                                             </div>
                                         </div>

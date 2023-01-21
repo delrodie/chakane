@@ -50,9 +50,13 @@ class Categorie
     #[ORM\ManyToMany(targetEntity: Genre::class)]
     private Collection $genre;
 
+    #[ORM\ManyToMany(targetEntity: Produit::class, mappedBy: 'categorie')]
+    private Collection $produits;
+
     public function __construct()
     {
         $this->genre = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,6 +216,33 @@ class Categorie
     public function removeGenre(Genre $genre): self
     {
         $this->genre->removeElement($genre);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Produit>
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->addCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): self
+    {
+        if ($this->produits->removeElement($produit)) {
+            $produit->removeCategorie($this);
+        }
 
         return $this;
     }

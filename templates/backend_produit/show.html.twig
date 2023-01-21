@@ -1,0 +1,171 @@
+{% extends 'backend_layout.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12 mt-5">
+                    <h3 class="page-title mt-3">Gestion des produits</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item active">Creation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-right">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 d-flex">
+                <div class="card card-table flex-fill">
+                    <div class="card-header">
+                        <h4 class="card-title float-left mt-2">{{ produit.titre }}</h4>
+                    </div>
+                    <div class="card-body booking_card">
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="{{ asset('uploads/produit/' ~ produit.media) }}" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <th>Reference</th>
+                                                <td>: </td>
+                                                <td>{{ produit.reference }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Famille</th>
+                                                <td>:</td>
+                                                <td>
+                                                    {% for categorie in produit.categorie %}
+                                                        {{ loop.last ? categorie.famille.titre ~ '' : categorie.famille.titre ~ ' - ' }}
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Catégories</th>
+                                                <td>:</td>
+                                                <td>
+                                                    {% for categorie in produit.categorie %}
+                                                        {{ loop.last ? categorie.titre ~ '' : categorie.titre ~ ' - ' }}
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Genre</th>
+                                                <td>:</td>
+                                                <td>
+                                                    {% for categorie in produit.categorie %}
+                                                        {% for genre in categorie.genre %}
+                                                            {{ loop.last ? genre.titre ~ '' : genre.titre ~ ' - ' }}
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-4">
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <th>Prix CFA</th>
+                                                <td>:</td>
+                                                <td>
+                                                    {% if produit.cfaSolde %}
+                                                        <strike>{{ produit.cfaPrix|number_format(0,'','.') }}</strike> / {{ produit.cfaSolde|number_format(0,'','.') }} F CFA
+                                                    {% else%} {{ produit.cfaPrix }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Prix USD</th>
+                                                <td>:</td>
+                                                <td>
+                                                    {% if produit.usdSolde %}
+                                                        <strike>{{ produit.usdPrix|number_format(2,',',',') }}</strike> / {{ produit.usdSolde|number_format(2,',',',') }} $
+                                                    {% else %}
+                                                        {{ produit.usdPrix|number_format(2,',',',')}} $
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Prix Euro</th>
+                                                <td>:</td>
+                                                <td>
+                                                    {% if produit.euroSolde %}
+                                                        <strike>{{ produit.euroPrix|number_format(2,',',' ') }}</strike> / {{ produit.euroSolde|number_format(2,',',' ') }} &euro;
+                                                    {% else %}
+                                                        {{ produit.euroPrix|number_format(2,',',' ') }} &euro;
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Affichage</th>
+                                                <td> : </td>
+                                                <td>Niveau {{ produit.niveau  }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-3">
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <th>Promotion</th>
+                                                <td> : </td>
+                                                <td> {{ produit.promotion ? 'OUI' : 'NON' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Couleur</th>
+                                                <td> : </td>
+                                                <td> {{ produit.coleur }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Taille</th>
+                                                <td> : </td>
+                                                <td> {{ produit.taille }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Poids</th>
+                                                <td> : </td>
+                                                <td> {{ produit.poids }} kg</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                            <div class="col-12">
+                                {{ produit.description|raw }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6 text-right">{{ include('backend_produit/_delete_form.html.twig') }}</div>
+            <div class="col-6">
+                <a href="{{ path('app_backend_produit_index') }}" class="btn btn-outline-secondary"><i class="fas fa-reply"></i> Retour à la liste</a>
+                <a href="{{ path('app_backend_produit_edit', {'id': produit.id}) }}" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
