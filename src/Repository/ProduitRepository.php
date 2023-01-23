@@ -70,6 +70,22 @@ class ProduitRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
     }
+    public function findByCategorie(string $categorie)
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('c')
+            ->addSelect('f')
+            ->addSelect('g')
+            ->leftJoin('p.categorie', 'c')
+            ->leftJoin('c.famille', 'f')
+            ->leftJoin('c.genre', 'g')
+            ->where('c.slug = :slug')
+            ->orderBy('p.promotion', 'DESC')
+            ->addOrderBy('p.niveau', 'DESC')
+            ->setParameter('slug', $categorie)
+            ->getQuery()->getResult()
+            ;
+    }
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
@@ -95,4 +111,5 @@ class ProduitRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }

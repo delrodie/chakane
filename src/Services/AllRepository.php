@@ -61,6 +61,18 @@ class AllRepository
         });
     }
 
+    public function cacheGenre(string $entityName, string $slug=null, bool $delete=false)
+    {
+        $cacheName = $entityName.$slug;
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item)use($slug){
+            $item->expiresAfter(604800);
+            if ($slug) return $this->genreRepository->findOneBy(['slug' => $slug]);
+            else return $this->genreRepository->findAll();
+        });
+    }
+
     public function cacheCategorie(string $entityName, string $slug=null, bool $delete=false)
     {
         $cacheName = $entityName.$slug;
@@ -85,9 +97,9 @@ class AllRepository
         });
     }
 
-    public function cacheProduitByFamille(string $famille, string $genre=null, bool $delete=false)
+    public function cacheProduitByFamilleAndGenre(string $famille, string $genre=null, bool $delete=false)
     {
-        $cacheName = $famille.$genre;
+        $cacheName = "produit-{$famille}{$genre}";
         if ($delete) $this->cache->delete($cacheName);
 
         return $this->cache->get($cacheName, function (ItemInterface $item) use($famille, $genre){
@@ -96,16 +108,39 @@ class AllRepository
         });
     }
 
-    // Verification de l'existence dans la base de données
-    public function findByFamille($string)
+    public function cacheProduitByCategorie(string $categorie, bool $delete=false)
     {
-        return $this->familleRepository->findByStr($string);
+        $cacheName ="produitbycategorie{$categorie}";
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use($categorie){
+            $item->expiresAfter(604800);
+            return $this->produitRepository->findByCategorie($categorie);
+        });
+    }
+
+    // Verification de l'existence dans la base de données
+    public function cacheGetFamille($string, bool $delete=false)
+    {
+        $cacheName = "getFamille{$string}";
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use($string){
+            $item->expiresAfter(604800);
+            return $this->familleRepository->findByStr($string);
+        });
     }
 
     // Verification de l'existence du genre dans la base de données
-    public function findByGenre($string)
+    public function cacheGetGenre($string, bool $delete=false)
     {
-        return $this->genreRepository->findByStr($string);
+        $cacheName= "getGenre{$string}";
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use ($string){
+            $item->expiresAfter(604800);
+            return $this->genreRepository->findByStr($string);
+        });
     }
 
     public function cacheMenu(string $genre, bool $delete=false)

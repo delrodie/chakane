@@ -63,7 +63,7 @@ class CategorieRepository extends ServiceEntityRepository
                 ->setParameter('famille', "%{$famille}");
         }
 
-        return $query->getQuery()->getResult();
+        return $query->setMaxResults(1)->getQuery()->getResult();
     }
 
     public function findByGenreAndFamille(string $genre, string $famille)
