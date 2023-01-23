@@ -63,4 +63,13 @@ class GenreRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByStr($string)
+    {
+        return $this->createQueryBuilder('g')
+            ->where('g.titre LIKE :str')
+            ->setParameter('str', "%{$string}%")
+            ->setMaxResults(1)
+            ->getQuery()->getResult()
+            ;
+    }
 }

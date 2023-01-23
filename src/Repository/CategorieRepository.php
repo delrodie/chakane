@@ -39,7 +39,7 @@ class CategorieRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllWithJoin(string $slug=null, string $genre=null)
+    public function findAllWithJoin(string $slug=null, string $genre=null, string $famille=null)
     {
         $query =  $this->createQueryBuilder('c')
             ->addSelect('f')
@@ -58,7 +58,29 @@ class CategorieRepository extends ServiceEntityRepository
                 ->setParameter('genre', "%{$genre}%");
         }
 
+        if ($famille){
+            $query->where('f.titre LIKE :famille')
+                ->setParameter('famille', "%{$famille}");
+        }
+
         return $query->getQuery()->getResult();
+    }
+
+    public function findByGenreAndFamille(string $genre, string $famille)
+    {
+        return $this->createQueryBuilder('c')
+            ->addSelect('f')
+            ->addSelect('g')
+            ->leftJoin('c.famille', 'f')
+            ->leftJoin('c.genre', 'g')
+            ->where('f.titre LIKE :famille')
+            ->andWhere('g.titre LIKE :genre')
+            ->orderBy('c.titre', "ASC")
+            ->setParameters([
+                'genre' => "%{$genre}%",
+                'famille' => "%{$famille}%"
+            ])
+            ->getQuery()->getResult();
     }
 
 //    /**

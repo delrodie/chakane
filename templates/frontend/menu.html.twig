@@ -1,0 +1,11 @@
+<ul>
+    <li>
+        <a href="#">Tout</a>
+    </li>
+    {% for categorie in categories %}
+        <li>
+            <a href="#">{{ categorie.titre }}</a>
+        </li>
+    {% endfor %}
+</ul>
+

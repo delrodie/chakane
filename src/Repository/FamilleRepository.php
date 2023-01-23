@@ -39,6 +39,15 @@ class FamilleRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByStr($str)
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.titre LIKE :str')
+            ->setParameter('str', "%{$str}%")
+            ->setMaxResults(1)
+            ->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Famille[] Returns an array of Famille objects
 //     */

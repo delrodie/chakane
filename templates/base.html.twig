@@ -89,30 +89,16 @@
                                             <div class="row">
                                                 <div class="col-lg-4">
                                                     <h3>Femmes</h3>
-                                                    <ul>
-                                                        <li><a href="#">Tout</a></li>
-                                                        <li><a href="#">Robes</a></li>
-                                                        <li><a href="#">Robes</a></li>
-                                                        <li><a href="#">Jupes</a></li>
-                                                        <li><a href="#">Jupes</a></li>
-                                                    </ul>
+                                                    {{ render(url('app_menu_genre',{'genre':'femme'})) }}
 
                                                     <h3 style="margin-top: 25px">Fillettes</h3>
-                                                    <ul>
-                                                        <li><a href="#">Tout</a></li>
-                                                    </ul>
+                                                    {{ render(url('app_menu_genre',{'genre':'fille'})) }}
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <h3>Hommes</h3>
-                                                    <ul>
-                                                        <li><a href="#">Tout</a></li>
-                                                        <li><a href="#">Chemises</a></li>
-                                                    </ul>
+                                                    {{ render(url('app_menu_genre',{'genre':'homme'})) }}
                                                     <h3 style="margin-top: 25px">Garçons</h3>
-                                                    <ul>
-                                                        <li><a href="#">Tout</a></li>
-                                                        <li><a href="#">Chemises</a></li>
-                                                    </ul>
+                                                    {{ render(url('app_menu_genre',{'genre':'garcon'})) }}
                                                 </div>
                                                 <div class="col-lg-4 hideOnMobile">
                                                     <div class="lookBook01 lb01M2">
@@ -356,7 +342,7 @@
             <script src="{{ asset('assets/js/jquery.themepunch.revolution.min.js') }}"></script>
 
             <script src="{{ asset('assets/js/extensions/revolution.extension.actions.min.js') }}"></script>
-            <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+            <script src="{{ asset('assets/js/extensions/revolution.extension.carousel.min.js') }}"></script>
             <script src="{{ asset('assets/js/extensions/revolution.extension.kenburn.min.js') }}"></script>
             <script src="{{ asset('assets/js/extensions/revolution.extension.layeranimation.min.js') }}"></script>
             <script src="{{ asset('assets/js/extensions/revolution.extension.migration.min.js') }}"></script>

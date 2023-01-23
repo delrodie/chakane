@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repository\CategorieRepository;
 use App\Repository\FamilleRepository;
+use App\Repository\GenreRepository;
 use App\Repository\PresentationRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\SliderRepository;
@@ -16,7 +17,8 @@ class AllRepository
     public function __construct(
         private RequestStack $requestStack, private CacheInterface $cache, private SliderRepository $sliderRepository,
         private PresentationRepository $presentationRepository, private FamilleRepository $familleRepository,
-        private CategorieRepository $categorieRepository, private ProduitRepository $produitRepository
+        private CategorieRepository $categorieRepository, private ProduitRepository $produitRepository,
+        private GenreRepository $genreRepository
     )
     {
     }
@@ -80,6 +82,40 @@ class AllRepository
             $item->expiresAfter(604800);
             if (!$slug) return $this->produitRepository->findAll();
             else return $this->produitRepository->findOneBy(['slug' => $slug]);
+        });
+    }
+
+    public function cacheProduitByFamille(string $famille, string $genre=null, bool $delete=false)
+    {
+        $cacheName = $famille.$genre;
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use($famille, $genre){
+            $item->expiresAfter(604800);
+            return $this->produitRepository->findByFamille($famille, $genre);
+        });
+    }
+
+    // Verification de l'existence dans la base de données
+    public function findByFamille($string)
+    {
+        return $this->familleRepository->findByStr($string);
+    }
+
+    // Verification de l'existence du genre dans la base de données
+    public function findByGenre($string)
+    {
+        return $this->genreRepository->findByStr($string);
+    }
+
+    public function cacheMenu(string $genre, bool $delete=false)
+    {
+        $cacheName = "menu{$genre}";
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use($genre){
+            $item->expiresAfter(604800);
+            return $this->categorieRepository->findByGenreAndFamille($genre, 'vetement');
         });
     }
 

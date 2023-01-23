@@ -39,6 +39,38 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByFamille($famille, $genre=null)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->addSelect('c')
+            ->addSelect('f')
+            ->addSelect('g')
+            ->leftJoin('p.categorie', 'c')
+            ->leftJoin('c.genre', 'g')
+            ->leftJoin('c.famille', 'f')
+            ;
+        if ($famille && $genre){
+            $query->where('f.slug LIKE :famille')
+                ->andWhere('g.titre LIKE :genre')
+                ->setParameters([
+                    'famille' => "%{$famille}%",
+                    'genre' => "%{$genre}%"
+                ]);
+        }elseif ($famille){
+            $query->where('f.titre LIKE :famille')
+                ->setParameter('famille', "%{$famille}%");
+        }elseif ($genre){
+            $query->where('g.titre LIKE :genre')
+                ->setParameter('genre', "%{$genre}%");
+        }else{
+            $query;
+        }
+        $query->orderBy('p.promotion', "DESC")
+            ->addOrderBy('p.niveau', "DESC");
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Produit[] Returns an array of Produit objects
 //     */

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} 404 {% endblock %}
+{% block body %}
+    <section class="pageBannerSection">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="pageBannerContent text-left">
+                        <div class="pageBannerPath">
+                            <a href="{{ absolute_url(path('app_home')) }}">Accueil</a>&nbsp;&nbsp;>&nbsp;&nbsp;<span>Page non trouvée</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="fofPage">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="fofContent text-center">
+                        <h2>404</h2>
+                        <h3><i class="fa-regular fa-face-sad-cry"></i> Oops! Page not found.</h3>
+                        <p>The page you are looking for was moved removed, renamed or never existed</p>
+                        <a href="index-2.html" class="ulinaBTN"><span>Back To Home</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

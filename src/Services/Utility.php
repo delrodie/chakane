@@ -53,7 +53,7 @@ class Utility
 
         // Generation du slug
         $slugify = new AsciiSlugger();
-        $slug = $slugify->slug($entity->getTitre());
+        $slug = $slugify->slug(strtolower($entity->getTitre()));
         $entity->setSlug($slug);
 
         if ($resume){

@@ -921,14 +921,14 @@
     /---------------------------------------------------------*/
     $('.pi01QuickView').on('click', function(e){
         e.preventDefault();
-        const myModal = new bootstrap.Modal('#productQuickView', {
+        const myModal = new bootstrap.Modal('.productQuickView', {
             keyboard: false
         })
-        const productQuickView = document.getElementById('productQuickView'); 
+        const productQuickView = document.querySelectorAll('.productQuickView');
         myModal.show(productQuickView);
         productQuickView.addEventListener('shown.bs.modal', event => {
             // Slick For productGallery
-            $('#productQuickView .productGalleryPopup').not('.slick-initialized').slick({
+            $('.productGalleryPopup').not('.slick-initialized').slick({
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 arrows: false,
@@ -937,7 +937,7 @@
             });
 
             // Slick For productGalleryThumb
-            $('#productQuickView .productGalleryThumbPopup').not('.slick-initialized').slick({
+            $('.productGalleryThumbPopup').not('.slick-initialized').slick({
                 slidesToShow: 3,
                 slidesToScroll: 1,
                 asNavFor: '.productGalleryPopup',
