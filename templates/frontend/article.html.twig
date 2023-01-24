@@ -29,36 +29,22 @@
                             <div class="pgImage">
                                 <img src="{{ absolute_url(asset('uploads/produit/' ~ produit.media)) }}" alt="{{ produit.titre }}"/>
                             </div>
-                            <div class="pgImage">
-                                <img src="images/product_details/2.jpg" alt="Product Image"/>
-                            </div>
-                            <div class="pgImage">
-                                <img src="images/product_details/3.jpg" alt="Product Image"/>
-                            </div>
-                            <div class="pgImage">
-                                <img src="images/product_details/4.jpg" alt="Product Image"/>
-                            </div>
-                            <div class="pgImage">
-                                <img src="images/product_details/5.jpg" alt="Product Image"/>
-                            </div>
+                            {% for image in produit.images %}
+                                <div class="pgImage">
+                                    <img src="{{ asset('uploads/produit/' ~ image.media) }}" alt="{{ produit.titre }}"/>
+                                </div>
+                            {% endfor %}
                         </div>
                         <div class="productGalleryThumbWrap">
                             <div class="productGalleryThumb">
                                 <div class="pgtImage">
                                     <img src="{{ absolute_url(asset('uploads/produit/' ~ produit.media)) }}" alt="{{ produit.titre }}"/>
                                 </div>
-                                <div class="pgtImage">
-                                    <img src="images/product_details/t2.jpg" alt="Product Image"/>
-                                </div>
-                                <div class="pgtImage">
-                                    <img src="images/product_details/t3.jpg" alt="Product Image"/>
-                                </div>
-                                <div class="pgtImage">
-                                    <img src="images/product_details/t4.jpg" alt="Product Image"/>
-                                </div>
-                                <div class="pgtImage">
-                                    <img src="images/product_details/t5.jpg" alt="Product Image"/>
-                                </div>
+                                {% for image in produit.images %}
+                                    <div class="pgImage">
+                                        <img src="{{ asset('uploads/produit/' ~ image.media) }}" alt="{{ produit.titre }}"/>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
