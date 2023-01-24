@@ -21,7 +21,7 @@ class FrontendMarqueController extends AbstractController
     public function index(): Response
     {
         return $this->render('frontend/presentation.html.twig',[
-            'presentation' => $this->allRepository->cachePresentation()
+            'presentation' => $this->allRepository->cachePresentation(true)
         ]);
     }
 }

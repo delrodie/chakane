@@ -24,7 +24,7 @@ class FrontendFamilleController extends AbstractController
 
         return $this->render('frontend/famille.html.twig',[
             'famille' => $familleEntity,
-            'produits' => $this->allRepository->cacheProduitByFamilleAndGenre($familleEntity->getSlug()),
+            'produits' => $this->allRepository->cacheProduitByFamilleAndGenre($familleEntity->getSlug(), true),
             'genre' => null,
             'categorie' => null
         ]);
@@ -38,7 +38,7 @@ class FrontendFamilleController extends AbstractController
 
         return $this->render('frontend/famille.html.twig',[
             'famille' => $familleEntity,
-            'produits' => $this->allRepository->cacheProduitByFamilleAndGenre($familleEntity->getSlug(), $genreEntity[0]->getTitre()),
+            'produits' => $this->allRepository->cacheProduitByFamilleAndGenre($familleEntity->getSlug(), $genreEntity[0]->getTitre(), true),
             'genre' => $genreEntity[0],
             'categorie' => null
         ]);
@@ -48,18 +48,18 @@ class FrontendFamilleController extends AbstractController
     #[Route('/{famille}/{genre}/{slug}', name: 'app_frontend_famille_categorie')]
     public function categorie($famille, $genre, $slug)
     {
-        $categorie = $this->allRepository->cacheCategorie('categorie', $slug);
+        $categorie = $this->allRepository->cacheCategorie('categorie', $slug, true);
         return $this->render('frontend/famille.html.twig',[
-            'famille' => $this->allRepository->cacheFamille('famille', $famille),
-            'genre' => $this->allRepository->cacheGenre('genre', $genre),
+            'famille' => $this->allRepository->cacheFamille('famille', $famille, true),
+            'genre' => $this->allRepository->cacheGenre('genre', $genre, true),
             'categorie' => $categorie[0],
-            'produits' => $this->allRepository->cacheProduitByCategorie($slug)
+            'produits' => $this->allRepository->cacheProduitByCategorie($slug, true)
         ]);
     }
 
     protected function entityFamille($famille)
     {
-        $entity = $this->allRepository->cacheGetFamille($famille);
+        $entity = $this->allRepository->cacheGetFamille($famille, true);
         if (!$entity)
             throw $this->createNotFoundException("Aucune famille trouvée");
 

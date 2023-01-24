@@ -37,7 +37,7 @@ class FrontendProduitController extends AbstractController
             'produit' => $produit,
             'categorie' => $categorie,
             'genre' => $categorie->getGenre()[0],
-            'similaires' => $this->allRepository->cacheProduitByCategorie($categorie->getSlug())
+            'similaires' => $this->allRepository->cacheProduitByCategorie($categorie->getSlug(), true)
         ]);
     }
 }
