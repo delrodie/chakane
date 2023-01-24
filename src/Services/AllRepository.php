@@ -130,6 +130,17 @@ class AllRepository
         });
     }
 
+    public function cacheProduitByPromotion(bool $delete=null)
+    {
+        $cacheName = "produitPromotion";
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item){
+            $item->expiresAfter(604800);
+            return $this->produitRepository->findBy(['promotion' => true], ['niveau' => "DESC"]);
+        });
+    }
+
     // Verification de l'existence dans la base de données
     public function cacheGetFamille($string, bool $delete=false)
     {

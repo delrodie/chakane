@@ -20,8 +20,10 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
+        //dd();
         return $this->render('frontend/home.html.twig',[
-            'slides' => $this->allRepository->cache('slider')
+            'slides' => $this->allRepository->cache('slider'),
+            'promotions' => $this->allRepository->cacheProduitByPromotion(true),
         ]);
     }
 

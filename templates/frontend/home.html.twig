@@ -118,132 +118,37 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="productCarousel owl-carousel">
-                        <div class="productItem01">
-                            <div class="pi01Thumb">
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <div class="pi01Actions">
-                                    <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
-                                    <a href="javascript:void(0);" class="pi01QuickView"><i class="fa-solid fa-arrows-up-down-left-right"></i></a>
-                                    <a href="javascript:void(0);" class="pi01Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                </div>
-                                <div class="productLabels clearfix">
-                                    <span class="plDis">Promo</span>
-                                    <span class="plSale">Nouveau</span>
-                                </div>
-                            </div>
-                            <div class="pi01Details">
+                        {% for promotion in promotions %}
+                            <div class="productItem01 pi01NoRating">
+                                <div class="pi01Thumb">
+                                    <img src="{{ absolute_url(asset('uploads/produit/' ~ promotion.media)) }}" alt="{{ promotion.titre }}"/>
+                                    <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
+                                    <div class="pi01Actions">
+                                        <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
+                                        <a href="{{ path('app_frontend_produit', {'slug': promotion.slug}) }}" class="pi01QuickView"><i class="fa-solid fa-arrows-up-down-left-right"></i></a>
+                                    </div>
+                                    <div class="productLabels clearfix">
+                                        <span class="plDis">Promo</span>
+                                        {% if date(promotion.createdAt) > date('-30days') %}
+                                            <span class="plSale">Nouveau</span>
+                                        {% endif %}
 
-                                <h3><a href="javascript:void(0);">Sac bleu</a></h3>
-                                <div class="pi01Price">
-                                    <ins>40.000 FCFA</ins>
-                                    <del>50.000 FCFA</del>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="productItem01 ">
-                            <div class="pi01Thumb">
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <div class="pi01Actions">
-                                    <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
-                                    <a href="javascript:void(0);" class="pi01QuickView"><i class="fa-solid fa-arrows-up-down-left-right"></i></a>
-                                    <a href="javascript:void(0);" class="pi01Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                </div>
-                                <div class="productLabels clearfix">
-                                    <span class="plHot">Promo</span>
-                                </div>
-                            </div>
-                            <div class="pi01Details">
-                                <h3><a href="javascript:void(0);">Sac rafia</a></h3>
-                                <div class="pi01Price">
-                                    <ins>45.000 FCFA</ins>
-                                    <del>50.000 FCFA</del>
-                                </div>
+                                <div class="pi01Details">
+                                    <h3><a href="{{ path('app_frontend_produit', {'slug': promotion.slug}) }}">{{ promotion.titre }}</a></h3>
+                                    <div class="pi01Price">
+                                        {% if promotion.cfaSolde %}
+                                            <ins>{{ promotion.cfaSolde|number_format(0,'','.') }} FCFA</ins>
+                                            <del>{{ promotion.cfaPrix|number_format(0,'','.') }} FCFA</del>
+                                        {% else %}
+                                            <ins>{{ promotion.cfaPrix|number_format(0,'','.') }} FCFA</ins>
+                                        {% endif %}
+                                    </div>
 
-                            </div>
-                        </div>
-                        <div class="productItem01 ">
-                            <div class="pi01Thumb">
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <div class="pi01Actions">
-                                    <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
-                                    <a href="javascript:void(0);" class="pi01QuickView"><i class="fa-solid fa-arrows-up-down-left-right"></i></a>
-                                    <a href="javascript:void(0);" class="pi01Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                </div>
-                                <div class="productLabels clearfix">
-                                    <span class="plNew float-end">Nouveau</span>
                                 </div>
                             </div>
-                            <div class="pi01Details">
-                                <h3><a href="javascript:void(0);">Colier </a></h3>
-                                <div class="pi01Price">
-                                    <ins>25.000 FCFA</ins>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="productItem01 pi01NoRating">
-                            <div class="pi01Thumb">
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <div class="pi01Actions">
-                                    <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
-                                    <a href="javascript:void(0);" class="pi01QuickView"><i class="fa-solid fa-arrows-up-down-left-right"></i></a>
-                                    <a href="javascript:void(0);" class="pi01Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                </div>
-                            </div>
-                            <div class="pi01Details">
-                                <h3><a href="javascript:void(0);">Sac à main</a></h3>
-                                <div class="pi01Price">
-                                    <ins>35.000 FCFA</ins>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="productItem01">
-                            <div class="pi01Thumb">
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <div class="pi01Actions">
-                                    <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
-                                    <a href="javascript:void(0);" class="pi01QuickView"><i class="fa-solid fa-arrows-up-down-left-right"></i></a>
-                                    <a href="javascript:void(0);" class="pi01Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                </div>
-                                <div class="productLabels clearfix">
-                                    <span class="plDis">Promo</span>
-                                </div>
-                            </div>
-                            <div class="pi01Details">
-                                <h3><a href="javascript:void(0);">Colier</a></h3>
-                                <div class="pi01Price">
-                                    <ins>15.000</ins>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="productItem01">
-                            <div class="pi01Thumb">
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
-                                <div class="pi01Actions">
-                                    <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
-                                    <a href="javascript:void(0);" class="pi01QuickView"><i class="fa-solid fa-arrows-up-down-left-right"></i></a>
-                                    <a href="javascript:void(0);" class="pi01Wishlist"><i class="fa-solid fa-heart"></i></a>
-                                </div>
-                                <div class="productLabels clearfix">
-                                    <span class="plNew float-end">Nouveauté</span>
-                                </div>
-                            </div>
-                            <div class="pi01Details">
-                                <h3><a href="javascript:void(0);">Sac</a></h3>
-                                <div class="pi01Price">
-                                    <ins>47.000 FCFA</ins>
-                                    <del>50.000 FCFA</del>
-                                </div>
-
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
