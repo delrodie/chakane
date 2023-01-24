@@ -2,10 +2,14 @@
 
 namespace App\Controller\Backend;
 
+use App\Entity\Image;
 use App\Entity\Produit;
+use App\Form\ImageType;
 use App\Form\ProduitType;
+use App\Repository\ImageRepository;
 use App\Repository\ProduitRepository;
 use App\Services\GestionMedia;
+use Doctrine\ORM\EntityManagerInterface;
 use Flasher\Prime\Flasher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BackendProduitController extends AbstractController
 {
     public function __construct(
-        private GestionMedia $gestionMedia, private Flasher $flasher
+        private GestionMedia $gestionMedia, private Flasher $flasher, private EntityManagerInterface $entityManager
     )
     {
     }
@@ -57,11 +61,43 @@ class BackendProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_backend_produit_show', methods: ['GET'])]
-    public function show(Produit $produit): Response
+    #[Route('/{id}/images/ajout', name: 'app_backend_produit_show', methods: ['GET','POST'])]
+    public function show(Request $request, Produit $produit, ImageRepository $imageRepository): Response
     {
+        $image = new Image();
+        $form = $this->createForm(ImageType::class, $image);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Recuepration des medias set
+            $files = $form->get('media')->getData();
+            if (!$files){
+                $this->flasher->create('sweetalert')->addError("Attention aucune image n'a été téléchargée!");
+
+                return $this->redirectToRoute("app_backend_produit_show",['id' => $produit->getId()], Response::HTTP_SEE_OTHER);
+            }
+
+            // ENregistrement des images
+            foreach ($files as $file){
+                $image = new Image();
+                $media = $this->gestionMedia->upload($file, 'produit');
+                $image->setMedia($media);
+                $image->setProduit($produit);
+
+                $this->entityManager->persist($image);
+            }
+
+            $this->entityManager->flush();
+
+            $this->flasher->create('pnotify')->addSuccess("Les images ont été associées au produit '{$produit->getTitre()}' avec succès!");
+
+            return $this->redirectToRoute('app_backend_produit_show', ['id' => $produit->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('backend_produit/show.html.twig', [
             'produit' => $produit,
+            'image' => $image,
+            'form' => $form,
         ]);
     }
 

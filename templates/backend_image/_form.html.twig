@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    <div class="row form-group">
+        <div class="col-6 mt-3">{{ form_row(form.media) }}</div>
+        <div class="col-6 mt-5">
+            <button class="btn btn-outline-primary"><i class="fas fa-plus-circle"></i> {{ button_label|default('Ajouter') }}</button>
+        </div>
+    </div>
+    {{ form_widget(form) }}
+
+{{ form_end(form) }}

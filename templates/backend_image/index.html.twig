@@ -1,13 +1,13 @@
 {% extends 'backend_layout.html.twig' %}
 
-{% block title %}{{ parent() }}Gestion des produits{% endblock %}
+{% block title %}{{ parent() }}Gestion des images{% endblock %}
 
 {% block body %}
     <div class="content container-fluid">
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12 mt-5">
-                    <h3 class="page-title mt-3">Gestion des produits</h3>
+                    <h3 class="page-title mt-3">Gestion des images</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item active">Creation</li>
                     </ul>
@@ -15,12 +15,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 text-right mb-3">
-                <a href="{{ path('app_backend_produit_new') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i> Ajouter</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 d-flex">
+            <div class="col-md-8 d-flex">
                 <div class="card card-table flex-fill">
                     <div class="card-header">
                         <h4 class="card-title float-left mt-2">Liste</h4>
@@ -31,81 +26,55 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">ID</th>
-                                    <th class="text-center">REFERENCES</th>
-                                    <th class="text-center">NOMS</th>
-                                    <th class="text-center">PRIX</th>
-                                    <th class="text-center">CATEGORIES</th>
-                                    <th class="text-center">PROMOTIONS</th>
-                                    <th class="text-center">NIVEAUX</th>
-                                    <th class="text-center">IMAGES</th>
-                                    <th class="text-center">DIVERS</th>
-                                    <th class="text-center">ACTIONS</th>
+                                    <th class="text-center">CODES</th>
+                                    <th class="text-center">TITRES</th>
+                                    <th class="text-right">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for produit in produits %}
+                                {% for image in images %}
                                     <tr>
                                         <td>{{ loop.index }}</td>
-                                        <td class="text-center">{{ produit.reference }}</td>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                <a href="#" class="avatar avatar-sm mr-2" data-toggle="modal" data-target="#produit{{ produit.id }}">
-                                                    <img class="avatar-img rounded-circle" src="{{ asset('uploads/produit/' ~ produit.media) }}" alt="{{ produit.titre }}">
-                                                </a>
-                                                <a href="#" data-toggle="modal" data-target="#produit{{ produit.id }}">{{ produit.titre}} <span></span></a>
-                                            </h2>
-                                        </td>
-                                        <td>
-                                            {% if produit.cfaSolde %}
-                                                <strike>{{ produit.cfaPrix|number_format(0,'',' ') }}</strike>
-                                                {{ produit.cfaSolde|number_format(0,'',' ') }} FCFA
-                                            {% else %}
-                                                {{ produit.cfaPrix|number_format(0,'',' ') }}
-                                            {% endif %}
+                                        <td class="text-center">
+                                            <a href="{{ path('app_backend_produit_show', {'id': image.produit.id}) }}">{{ image.produit.reference }}</a>
 
                                         </td>
-                                        <td class="text-center">
-                                            {% for categorie in produit.categorie %}
-                                                {{ loop.last ? categorie.titre : categorie.titre~' - ' }}
-                                            {% endfor %}
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a href="#" class="avatar avatar-sm mr-2" data-toggle="modal" data-target="#mode{{ image.id }}">
+                                                    <img class="avatar-img rounded-circle" src="{{ asset('uploads/produit/' ~ image.media) }}" alt="{{ image.produit.titre }}">
+                                                </a>
+                                                <a href="#" data-toggle="modal" data-target="#mode{{ image.id }}">{{ image.produit.titre}} <span></span></a>
+                                            </h2>
                                         </td>
-                                        <td class="text-center">{{ produit.promotion ? '<span class="badge bg-success-light">OUI</span>' : '<span class="badge badge-danger">NON</span>'}}</td>
-                                        <td class="text-center">{{ produit.niveau }}</td>
-                                        <td class="text-center">{{ produit.images|length }}</td>
-                                        <td class="text-center">
-                                            {{ produit.taille ? "Taille: "~produit.taille : '' }} |
-                                            {{ produit.coleur ? "Couleur: "~ produit.coleur : '' }}
-                                        </td>
-                                        <td class="text-center">
+                                        <td class="text-right">
                                             <div class="dropdown dropdown-action"> <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v ellipse_color"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{ path('app_backend_produit_edit', {'id': produit.id}) }}"><i class="fas fa-pencil-alt m-r-5"></i> Modifier</a>
-                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#produit{{ produit.id }}"><i class="fas fa-eye m-r-5"></i> Détails</a>
-                                                    <a class="dropdown-item" href="{{ path('app_backend_produit_show', {'id': produit.id}) }}"><i class="fas fa-plus m-r-5"></i> Images</a>
+                                                    <a class="dropdown-item" href="{{ path('app_backend_image_edit', {'id': image.id}) }}"><i class="fas fa-pencil-alt m-r-5"></i> Modifier</a>
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#mode{{ image.id }}"><i class="fas fa-eye m-r-5"></i> Détails</a>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
 
-                                    <div class="modal fade" id="produit{{ produit.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="mode{{ image.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">{{ produit.titre }}</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">{{ image.produit.titre }}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <img src="{{ asset('uploads/produit/' ~ produit.media) }}" alt="{{ produit.titre }}" class="img-fluid">
+                                                    <img src="{{ asset('uploads/produit/' ~ image.media) }}" alt="{{ image.produit.titre }}" class="img-fluid">
                                                     <p>
-                                                        {{ produit.description|raw }}
+                                                        {{ image.produit.description|raw }}
                                                     </p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times-circle m-r-5"></i> Close</button>
-                                                    <a href="{{ path('app_backend_produit_show', {'id': produit.id}) }}" class="btn btn-outline-primary"><i class="fas fa-eye m-r-5"></i> Détails</a>
-                                                    <a href="{{ path('app_backend_produit_edit', {'id': produit.id}) }}" class="btn btn-primary"><i class="fas fa-pencil-alt m-r-5"></i> Modifier</a>
+                                                    <a href="{{ path('app_backend_image_edit', {'id': image.id}) }}" class="btn btn-primary"><i class="fas fa-pencil-alt m-r-5"></i> Modifier</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,6 +83,15 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title float-left mt-2">Formulaire</h4>
+                    </div>
+                    <div class="card-body">
                     </div>
                 </div>
             </div>

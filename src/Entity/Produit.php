@@ -77,9 +77,13 @@ class Produit
     #[ORM\Column(nullable: true)]
     private ?float $poids = null;
 
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Image::class)]
+    private Collection $images;
+
     public function __construct()
     {
         $this->categorie = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -347,6 +351,36 @@ class Produit
     public function setEuroSolde(?float $euroSolde): self
     {
         $this->euroSolde = $euroSolde;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getProduit() === $this) {
+                $image->setProduit(null);
+            }
+        }
 
         return $this;
     }
