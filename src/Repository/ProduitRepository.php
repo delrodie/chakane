@@ -80,7 +80,8 @@ class ProduitRepository extends ServiceEntityRepository
             $query;
         }
         $query->orderBy('p.promotion', "DESC")
-            ->addOrderBy('p.niveau', "DESC");
+            ->addOrderBy('p.niveau', "DESC")
+            ->addOrderBy('p.id', "DESC");
 
         return $query->getQuery()->getResult();
     }
