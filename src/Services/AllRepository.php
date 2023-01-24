@@ -97,6 +97,17 @@ class AllRepository
         });
     }
 
+    public function cacheProduitBySlug(string $slug, bool $delete=false)
+    {
+        $cacheName = "article{$slug}";
+        if ($delete) $this->cache->delete($cacheName);
+
+        return $this->cache->get($cacheName, function (ItemInterface $item) use($slug){
+            $item->expiresAfter(604800);
+            return $this->produitRepository->findBySlug($slug);
+        });
+    }
+
     public function cacheProduitByFamilleAndGenre(string $famille, string $genre=null, bool $delete=false)
     {
         $cacheName = "produit-{$famille}{$genre}";

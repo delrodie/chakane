@@ -39,6 +39,20 @@ class ProduitRepository extends ServiceEntityRepository
         }
     }
 
+    public function findBySlug($slug)
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('c')
+            ->addSelect('f')
+            ->addSelect('g')
+            ->leftJoin('p.categorie', 'c')
+            ->leftJoin('c.genre', 'g')
+            ->leftJoin('c.famille', 'f')
+            ->where('p.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()->getResult();
+    }
+
     public function findByFamille($famille, $genre=null)
     {
         $query = $this->createQueryBuilder('p')

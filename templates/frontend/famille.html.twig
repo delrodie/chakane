@@ -43,13 +43,13 @@
                                 <img src="{{ absolute_url(asset('uploads/produit/' ~ produit.media) )}}" alt="{{ produit.titre }}"/>
                                 <div class="pi01Actions">
                                     <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
-                                    <a href="#" class="pi01QuickView">
+                                    <a href="{{ path('app_frontend_produit', {'slug': produit.slug}) }}">
                                         <i class="fa-solid fa-arrows-up-down-left-right"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="pi01Details">
-                                <h3><a href="shop_details2.html">{{ produit.titre }}</a></h3>
+                                <h3><a href="{{ path('app_frontend_produit', {'slug': produit.slug}) }}">{{ produit.titre }}</a></h3>
                                 <div class="pi01Price">
                                     {% if produit.cfaSolde %}
                                         <ins>{{ produit.cfaSolde ? produit.cfaSolde|number_format(0,'','.') }} FCFA</ins>

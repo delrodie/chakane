@@ -20,8 +20,24 @@ class FrontendProduitController extends AbstractController
     {
     }
 
-    public function index()
+    #[Route('/{slug}', name: "app_frontend_produit")]
+    public function index($slug)
     {
-        
+        $reposi = $this->allRepository->cacheProduitBySlug($slug, true);
+        if (!$reposi)
+            throw $this->createNotFoundException("Ce produit n'existe pas");
+
+        $produit = $reposi[0];
+        if (!$produit)
+            throw $this->createNotFoundException("Aucun produit trouvé");
+
+        $categorie = $produit->getCategorie()[0];
+
+        return $this->render('frontend/article.html.twig',[
+            'produit' => $produit,
+            'categorie' => $categorie,
+            'genre' => $categorie->getGenre()[0],
+            'similaires' => $this->allRepository->cacheProduitByCategorie($categorie->getSlug())
+        ]);
     }
 }
