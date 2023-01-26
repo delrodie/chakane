@@ -34,7 +34,7 @@ class FrontendFamilleController extends AbstractController
     public function genre($famille, $genre): Response
     {
         $familleEntity = $this->entityFamille($famille);
-        $genreEntity = $this->allRepository->cacheGetGenre($genre);
+        $genreEntity = $this->allRepository->cacheGetGenre($genre, true);
 
         return $this->render('frontend/famille.html.twig',[
             'famille' => $familleEntity,

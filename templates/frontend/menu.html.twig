@@ -1,10 +1,10 @@
 <ul>
     <li>
-        <a href="{{ path('app_frontend_famille_genre', {'famille': 'vetement', 'genre': genre.slug}) }}">Tout</a>
+        <a href="{{ absolute_url(path('app_frontend_famille_genre', {'famille': 'vetement', 'genre': genre.slug})) }}">Tout</a>
     </li>
     {% for categorie in categories %}
         <li>
-            <a href="{{ path('app_frontend_famille_categorie', {'famille': categorie.famille.slug, 'genre': genre.slug, 'slug': categorie.slug}) }}">{{ categorie.titre }}</a>
+            <a href="{{ absolute_url(path('app_frontend_famille_categorie', {'famille': categorie.famille.slug, 'genre': genre.slug, 'slug': categorie.slug})) }}">{{ categorie.titre }}</a>
         </li>
     {% endfor %}
 </ul>

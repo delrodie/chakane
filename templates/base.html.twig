@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
         <title>{% block title %}Chakane{% endblock %}</title>
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png') }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicon-32x32.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ absolute_url(asset('assets/img/apple-touch-icon.png')) }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ absolute_url(asset('assets/img/favicon-32x32.png')) }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ absolute_url(asset('assets/img/favicon-16x16.png')) }}">
-        <link rel="icon" href="{{ asset('assets/img/favicon.ico') }}">
-        <link rel="manifest" href="{{ asset('assets/img/site.webmanifest') }}">
+        <link rel="icon" href="{{ absolute_url(asset('assets/img/favicon.ico')) }}">
+        <link rel="manifest" href="{{ absolute_url(asset('assets/img/site.webmanifest')) }}">
         {% block metas %}
             <link rel="alternate" href="{{ absolute_url(path('app_home')) }}" hreflang="fr">
 
@@ -109,7 +109,7 @@
                                                                 <i class="fa-solid fa-angle-right"></i>Toutes les collections
                                                             </a>
                                                         </div>
-                                                        <img src="images/collection/collection.png" alt="Mans Latest Collection">
+                                                        <img src="{{ absolute_url(asset('assets/images/collection/collection.png')) }}" alt="Mans Latest Collection">
                                                     </div>
                                                 </div>
                                             </div>
@@ -122,7 +122,7 @@
                                             <li><a href="{{ absolute_url(path('app_frontend_famille_index', {'famille': 'accessoire'})) }}">Accesoires</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="contact.html">Contacts</a></li>
+                                    <li><a href="#">Contacts</a></li>
                                 </ul>
                             </div>
                             <div class="accessNav">
@@ -235,11 +235,11 @@
                                 </div>
                                 <div class="singleAddress">
                                     <i class="fa-solid fa-phone"></i>
-                                    +225 27 22 51 67 56 / 07 59 53 59 51
+                                    <a href="tel:+2252722516756">+225 27 22 51 67 56</a> / <a href="tel:+2250759535951">07 59 53 59 51</a>
                                 </div>
                                 <div class="singleAddress">
                                     <i class="fa-solid fa-envelope"></i>
-                                    <a href="mailto:info@terredafrique.com">info@terredafrique.com</a>
+                                    <a href="mailto:contact@chakane.net">contact@chakane.net</a>
                                 </div>
                             </div>
                         </aside>
@@ -248,7 +248,7 @@
                         <aside class="widget">
                             <h3 class="widgetTitle">Rubriques</h3>
                             <ul>
-                                <li><a href="javascript:void(0);">La marque</a></li>
+                                <li><a href="{{ path('app_frontend_marque_presentation') }}">La marque</a></li>
                                 <li><a href="javascript:void(0);">Les collections</a></li>
                                 <li><a href="javascript:void(0);">Contact</a></li>
                                 <li><a href="javascript:void(0);"></a></li>
@@ -259,12 +259,12 @@
                         <aside class="widget twoColMenu">
                             <h3 class="widgetTitle">Vêtements</h3>
                             <ul>
-                                <li><a href="javascript:void(0);">Femmes</a></li>
-                                <li><a href="javascript:void(0);">Hommes</a></li>
-                                <li><a href="javascript:void(0);">Filles</a></li>
-                                <li><a href="javascript:void(0);">Garçons</a></li>
-                                <li><a href="javascript:void(0);">Sacs</a></li>
-                                <li><a href="javascript:void(0);">Accessoires</a></li>
+                                <li><a href="{{ absolute_url(path('app_frontend_famille_genre', {'famille': 'vetement', 'genre': 'femme'})) }}">Femmes</a></li>
+                                <li><a href="{{ absolute_url(path('app_frontend_famille_genre', {'famille': 'vetement', 'genre': 'homme'})) }}">Hommes</a></li>
+                                <li><a href="{{ absolute_url(path('app_frontend_famille_genre', {'famille': 'vetement', 'genre': 'fille'})) }}">Filles</a></li>
+                                <li><a href="{{ absolute_url(path('app_frontend_famille_genre', {'famille': 'vetement', 'genre': 'garcon'})) }}">Garçons</a></li>
+                                <li><a href="{{ absolute_url(path('app_frontend_famille_index', {'famille': 'sac'})) }}">Sacs</a></li>
+                                <li><a href="{{ absolute_url(path('app_frontend_famille_index', {'famille': 'accessoire'})) }}">Accessoires</a></li>
                                 <li><a href="javascript:void(0);"></a></li>
                                 <li><a href="javascript:void(0);"> </a></li>
                             </ul>
@@ -304,7 +304,7 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="siteInfo">
-                            Tous droits réservés  &nbsp;<a href="{{ absolute_url(path('app_home')) }}">Terre d'AFrique</a>&nbsp;&nbsp;&copy;&nbsp;&nbsp;2022
+                            Tous droits réservés  &nbsp;<a href="{{ absolute_url(path('app_home')) }}">CHAKANE</a>&nbsp;&nbsp;&copy;&nbsp;&nbsp;2023
                         </div>
                     </div>
                     <div class="col-md-7">
@@ -323,35 +323,35 @@
         <a href="javascript:void(0);" id="backtotop"><i class="fa-solid fa-angles-up"></i></a>
 
         {% block javascripts %}
-            <script src="{{ asset('assets/js/jquery.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
-            <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('assets/js/shuffle.min.js') }}"></script>
-            <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
-            <script src="{{ asset('assets/js/owl.carousel.filter.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery.appear.js') }}"></script>
-            <script src="{{ asset('assets/js/lightcase.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery.nice-select.js') }}"></script>
-            <script src="{{ asset('assets/js/slick.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery.plugin.min.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery.countdown.min.js') }}"></script>
-            <script src="{{ asset('assets/js/circle-progress.js') }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/jquery.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/jquery-ui.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/bootstrap.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/shuffle.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/owl.carousel.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/owl.carousel.filter.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/jquery.appear.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/lightcase.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/jquery.nice-select.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/slick.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/jquery.plugin.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/jquery.countdown.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/circle-progress.js')) }}"></script>
 
 
-            <script src="{{ asset('assets/js/jquery.themepunch.tools.min.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery.themepunch.revolution.min.js') }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/jquery.themepunch.tools.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/jquery.themepunch.revolution.min.js')) }}"></script>
 
-            <script src="{{ asset('assets/js/extensions/revolution.extension.actions.min.js') }}"></script>
-            <script src="{{ asset('assets/js/extensions/revolution.extension.carousel.min.js') }}"></script>
-            <script src="{{ asset('assets/js/extensions/revolution.extension.kenburn.min.js') }}"></script>
-            <script src="{{ asset('assets/js/extensions/revolution.extension.layeranimation.min.js') }}"></script>
-            <script src="{{ asset('assets/js/extensions/revolution.extension.migration.min.js') }}"></script>
-            <script src="{{ asset('assets/js/extensions/revolution.extension.navigation.min.js') }}"></script>
-            <script src="{{ asset('assets/js/extensions/revolution.extension.parallax.min.js') }}"></script>
-            <script src="{{ asset('assets/js/extensions/revolution.extension.slideanims.min.js') }}"></script>
-            <script src="{{ asset('assets/js/extensions/revolution.extension.video.min.js') }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.actions.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.carousel.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.kenburn.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.layeranimation.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.migration.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.navigation.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.parallax.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.slideanims.min.js')) }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/extensions/revolution.extension.video.min.js')) }}"></script>
 
-            <script src="{{ asset('assets/js/theme.js') }}"></script>
+            <script src="{{ absolute_url(asset('assets/js/theme.js')) }}"></script>
         {% endblock %}
     </body>
 </html>

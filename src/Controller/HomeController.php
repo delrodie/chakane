@@ -23,7 +23,7 @@ class HomeController extends AbstractController
 
         return $this->render('frontend/home.html.twig',[
             'slides' => $this->allRepository->cache('slider'),
-            'promotions' => $this->allRepository->cacheProduitByPromotion(true),
+            'promotions' => $this->allRepository->cacheProduitByPromotion(),
             'hommes' => $this->allRepository->cacheProduitByFamilleAndGenre('vetement', 'homme'),
             'femmes' => $this->allRepository->cacheProduitByFamilleAndGenre('vetement', 'femme'),
             'accessoires' => $this->allRepository->cacheProduitByFamilleAndGenre('accessoire'),

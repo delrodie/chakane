@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Accueil{% endblock %}
+{% block title %}{{ parent() }} accueil{% endblock %}
 {% block body %}
     <section class="sliderSection02">
         <div class="rev_slider_wrapper">
@@ -7,7 +7,7 @@
                 <ul>
                     {% for slide in slides %}
                         <li data-index="rs-{{ loop.index }}" data-transition="random-premium" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="Power3.easeInOut" data-easeout="Power3.easeInOut" data-masterspeed="1000"  data-thumb=""  data-rotate="0"  data-saveperformance="off"  data-title="" data-param1="01" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
-                            <img src="{{ asset('uploads/slide/'~ slide.media) }}" alt="{{ slide.titre }}"  data-bgposition="left center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="0" class="rev-slidebg" data-no-retina/>
+                            <img src="{{ absolute_url(asset('uploads/slide/'~ slide.media)) }}" alt="{{ slide.titre }}"  data-bgposition="left center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="0" class="rev-slidebg" data-no-retina/>
                             <div class="tp-caption jost"
                                  data-x="['center','center','center','center']"
                                  data-hoffset="['0','0','0','0']"
@@ -122,7 +122,17 @@
                             <div class="productItem01 pi01NoRating">
                                 <div class="pi01Thumb">
                                     <img src="{{ absolute_url(asset('uploads/produit/' ~ promotion.media)) }}" alt="{{ promotion.titre }}"/>
-                                    <img src="https://via.placeholder.com/150" alt="Ulina Product"/>
+
+                                    {% if promotion.images %}
+                                        {% for image in promotion.images %}
+                                            {% if loop.first %}
+                                                <img src="{{ absolute_url(asset('uploads/produit/' ~ image.media)) }}" alt="{{ promotion.titre }}"/>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <img src="{{ absolute_url(asset('uploads/produit/' ~ promotion.media)) }}" alt="{{ promotion.titre }}"/>
+                                    {% endif %}
+
                                     <div class="pi01Actions">
                                         <a href="javascript:void(0);" class="pi01Cart"><i class="fa-solid fa-shopping-cart"></i></a>
                                         <a href="{{ absolute_url(path('app_frontend_produit', {'slug': promotion.slug})) }}"><i class="fa-solid fa-arrows-up-down-left-right"></i></a>
@@ -136,7 +146,7 @@
                                     </div>
                                 </div>
                                 <div class="pi01Details">
-                                    <h3><a href="{{ path('app_frontend_produit', {'slug': promotion.slug}) }}">{{ promotion.titre }}</a></h3>
+                                    <h3><a href="{{ absolute_url(path('app_frontend_produit', {'slug': promotion.slug})) }}">{{ promotion.titre }}</a></h3>
                                     <div class="pi01Price">
                                         {% if promotion.cfaSolde %}
                                             <ins>{{ promotion.cfaSolde|number_format(0,'','.') }} FCFA</ins>
@@ -174,7 +184,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="dealProductImage">
-                        <img src="{{ asset('assets/images/collection/collection.png') }}" alt="Ulima Fashionable Jeans"/>
+                        <img src="{{ absolute_url(asset('assets/images/collection/collection.png')) }}" alt="Terre d'Afrique"/>
                     </div>
                 </div>
             </div>
@@ -335,7 +345,7 @@
                             <h2>Même région</h2>
                             <a href="javascript:void(0);" class="ulinaLink"><i class="fa-solid fa-angle-right"></i>Acheter</a>
                         </div>
-                        <img src="{{ asset('assets/images/collection/collection_01.png') }}" alt="Women’s New Collection">
+                        <img src="{{ absolute_url(asset('assets/images/collection/collection_01.png')) }}" alt="Women’s New Collection">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -345,7 +355,7 @@
                             <h2>Différentes régions</h2>
                             <a href="javascript:void(0);" class="ulinaLink"><i class="fa-solid fa-angle-right"></i>Acheter</a>
                         </div>
-                        <img src="{{ asset('assets/images/collection/collection_02.png') }}" alt="Men’s Trendy Fashion">
+                        <img src="{{ absolute_url(asset('assets/images/collection/collection_02.png')) }}" alt="Men’s Trendy Fashion">
                     </div>
                 </div>
             </div>
@@ -363,16 +373,16 @@
                 <div class="col-lg-12">
                     <div class="instagramSlider owl-carousel">
                         <a href="{{ absolute_url(asset('assets/images/photos/01.jpg')) }}" class="instagramPhoto imgPopup">
-                            <img src="{{ asset('assets/images/photos/01_f.jpg') }}" alt="Ulina Instagram"/>
+                            <img src="{{ absolute_url(asset('assets/images/photos/01_f.jpg')) }}" alt="Ulina Instagram"/>
                         </a>
                         <a href="{{ absolute_url(asset('assets/images/photos/02.jpg')) }}" class="instagramPhoto imgPopup">
-                            <img src="{{ asset('assets/images/photos/02_f.jpg') }}" alt="Ulina Instagram"/>
+                            <img src="{{ absolute_url(asset('assets/images/photos/02_f.jpg')) }}" alt="Ulina Instagram"/>
                         </a>
                         <a href="{{ absolute_url(asset('assets/images/photos/03.jpg')) }}" class="instagramPhoto imgPopup">
-                            <img src="{{ asset('assets/images/photos/03_f.jpg') }}" alt="Ulina Instagram"/>
+                            <img src="{{ absolute_url(asset('assets/images/photos/03_f.jpg')) }}" alt="Ulina Instagram"/>
                         </a>
                         <a href="{{ absolute_url(asset('assets/images/photos/04.jpg')) }}" class="instagramPhoto imgPopup">
-                            <img src="{{ asset('assets/images/photos/04_f.jpg') }}" alt="Ulina Instagram"/>
+                            <img src="{{ absolute_url(asset('assets/images/photos/04_f.jpg')) }}" alt="Ulina Instagram"/>
                         </a>
                         <a href="{{ absolute_url(asset('assets/images/photos/05.jpg')) }}" class="instagramPhoto imgPopup">
                             <img src="{{ absolute_url(asset('assets/images/photos/05_f.jpg')) }}" alt="Ulina Instagram"/>
@@ -382,101 +392,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Modal -->
-
-    <div class="modal fade productQuickView" id="productQuickView" tabindex="-1" data-aria-labelledby="exampleModalLabel" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <button type="button" class="quickViewCloser" data-bs-dismiss="modal" aria-label="Close"><span></span></button>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="productGalleryWrap">
-                                <div class="productGalleryPopup">
-                                    <div class="pgImage">
-                                        <img src="{{ asset('assets/images/sac/24-2.jpg') }}" alt="Product Image"/>
-                                    </div>
-                                    <div class="pgImage">
-                                        <img src="images/sac/24.jpg" alt="Product Image"/>
-                                    </div>
-                                    <div class="pgImage">
-                                        <img src="images/sac/25-2.jpg" alt="Product Image"/>
-                                    </div>
-                                    <div class="pgImage">
-                                        <img src="images/sac/25.jpg" alt="Product Image"/>
-                                    </div>
-                                    <div class="pgImage">
-                                        <img src="images/sac/23.jpg" alt="Product Image"/>
-                                    </div>
-                                </div>
-                                <div class="productGalleryThumbWrap">
-                                    <div class="productGalleryThumbPopup">
-                                        <div class="pgtImage">
-                                            <img src="images/sac/24-2.jpg" alt="Product Image"/>
-                                        </div>
-                                        <div class="pgtImage">
-                                            <img src="images/sac/24.jpg" alt="Product Image"/>
-                                        </div>
-                                        <div class="pgtImage">
-                                            <img src="images/sac/25-2.jpg" alt="Product Image"/>
-                                        </div>
-                                        <div class="pgtImage">
-                                            <img src="images/sac/25.jpg" alt="Product Image"/>
-                                        </div>
-                                        <div class="pgtImage">
-                                            <img src="images/sac/23.jpg" alt="Product Image"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="productContent">
-                                <div class="pcCategory">
-                                    <a href="javascript:void(0);">Accessoires</a>, <a href="javascript:void(0);">Sac</a>
-                                </div>
-                                <h2><a href="javascript:void(0);">Sac 1</a></h2>
-                                <div class="pi01Price">
-                                    <ins>10.000 FCFA</ins>
-                                    <del>20.000 FCFA</del>
-                                </div>
-                                <div class="pcExcerpt">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusncididunt ut labo re et dolore magna aliqua. Ut enim ad minim
-                                    veniam
-                                </div>
-                                <div class="pcBtns">
-                                    <div class="quantity clearfix">
-                                        <button type="button" name="btnMinus" class="qtyBtn btnMinus">_</button>
-                                        <input type="number" class="carqty input-text qty text" name="quantity" value="01">
-                                        <button type="button" name="btnPlus" class="qtyBtn btnPlus">+</button>
-                                    </div>
-                                    <button type="submit" class="ulinaBTN"><span>Ajouter au panier</span></button>
-                                </div>
-                                <div class="pcMeta">
-                                    <p>
-                                        <span>Reférence</span>
-                                        <a href="javascript:void(0);">3489 JE0765</a>
-                                    </p>
-                                    <p class="pcmTags">
-                                        <span>Tags:</span>
-                                        <a href="javascript:void(0);">Accessoires</a>, <a href="javascript:void(0);">Sacs</a>, <a href="javascript:void(0);">Femme</a>
-                                    </p>
-                                    <p class="pcmSocial">
-                                        <span>Partager</span>
-                                        <a class="fac" href="javascript:void(0);"><i class="fa-brands fa-facebook-f"></i></a>
-                                        <a class="twi" href="javascript:void(0);"><i class="fa-brands fa-twitter"></i></a>
-                                        <a class="lin" href="javascript:void(0);"><i class="fa-brands fa-linkedin-in"></i></a>
-                                        <a class="ins" href="javascript:void(0);"><i class="fa-brands fa-instagram"></i></a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 {% endblock %}
